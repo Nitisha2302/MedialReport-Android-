@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glVerticalStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glVerticalEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glHorizontalTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.050" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glHorizontalBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/glHorizontalBottom"
+            app:layout_constraintEnd_toEndOf="@id/glVerticalEnd"
+            app:layout_constraintStart_toStartOf="@id/glVerticalStart"
+            app:layout_constraintTop_toTopOf="@id/glHorizontalTop">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/helvetica_bold"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:text="@string/txt_new_patient_registration"
+                android:textAlignment="center"
+                android:textColor="@color/app_color"
+                android:textSize="@dimen/_22sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ScrollView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toTopOf="@+id/btnCreateProfile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/glVerticalCenter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <TextView
+                        android:id="@+id/tvFullName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:fontFamily="@font/helvetica_bold"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:text="@string/txt_full_name"
+                        android:textColor="?android:attr/textColor"
+                        android:textSize="@dimen/_15sdp"
+                        app:layout_constraintEnd_toEndOf="@id/glVerticalCenter"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tlFullName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        app:cursorColor="@color/app_color"
+                        app:hintEnabled="false"
+                        app:layout_constraintEnd_toEndOf="@id/glVerticalCenter"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvFullName">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etFullName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/helvetica_regular"
+                            android:imeOptions="actionNext"
+                            android:includeFontPadding="false"
+                            android:inputType="text"
+                            android:longClickable="false"
+                            android:maxLines="1"
+                            android:paddingHorizontal="@dimen/_16sdp"
+                            android:singleLine="true"
+                            android:textColor="?android:attr/textColor"
+                            android:textColorHint="?attr/hintTextColor"
+                            android:textCursorDrawable="@drawable/green_cursor"
+                            android:textFontWeight="700"
+                            android:textSize="@dimen/_14sdp"
+                            android:textStyle="normal"
+                            tools:ignore="RtlSymmetry,UnusedAttribute" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/tvPhoneNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_11sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:fontFamily="@font/helvetica_bold"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:text="@string/txt_phone_number"
+                        android:textColor="?android:attr/textColor"
+                        android:textSize="@dimen/_15sdp"
+                        app:layout_constraintEnd_toEndOf="@id/glVerticalCenter"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tlFullName" />
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tlPhoneNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        app:cursorColor="@color/app_color"
+                        app:hintEnabled="false"
+                        app:layout_constraintEnd_toEndOf="@id/glVerticalCenter"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvPhoneNumber">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPhoneNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/helvetica_regular"
+                            android:imeOptions="actionNext"
+                            android:includeFontPadding="false"
+                            android:inputType="number"
+                            android:longClickable="false"
+                            android:maxLength="10"
+                            android:maxLines="1"
+                            android:paddingHorizontal="@dimen/_16sdp"
+                            android:singleLine="true"
+                            android:textColor="?android:attr/textColor"
+                            android:textColorHint="?attr/hintTextColor"
+                            android:textCursorDrawable="@drawable/green_cursor"
+                            android:textFontWeight="700"
+                            android:textSize="@dimen/_14sdp"
+                            android:textStyle="normal"
+                            tools:ignore="RtlSymmetry,UnusedAttribute" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/tvGender"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_11sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:fontFamily="@font/helvetica_bold"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:text="@string/txt_gender"
+                        android:textColor="?android:attr/textColor"
+                        android:textSize="@dimen/_15sdp"
+                        app:layout_constraintEnd_toEndOf="@id/glVerticalCenter"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tlPhoneNumber" />
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tlGender"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        app:endIconCheckable="true"
+                        app:endIconDrawable="@drawable/ic_arrow_drop_down"
+                        app:endIconMode="dropdown_menu"
+                        app:hintEnabled="false"
+                        app:layout_constraintEnd_toEndOf="@id/glVerticalCenter"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvGender">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/etGender"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg"
+                            android:cursorVisible="false"
+                            android:ellipsize="end"
+                            android:focusable="false"
+                            android:fontFamily="@font/helvetica_regular"
+                            android:includeFontPadding="false"
+                            android:inputType="none"
+                            android:longClickable="false"
+                            android:maxLength="50"
+                            android:maxLines="1"
+                            android:paddingHorizontal="@dimen/_16sdp"
+                            android:paddingVertical="@dimen/_13sdp"
+                            android:singleLine="true"
+                            android:textColor="?android:attr/textColor"
+                            android:textColorHint="?attr/hintTextColor"
+                            android:textFontWeight="700"
+                            android:textSize="@dimen/_14sdp"
+                            android:textStyle="normal"
+                            tools:ignore="RtlSymmetry,UnusedAttribute" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/tvAge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:fontFamily="@font/helvetica_bold"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:text="@string/txt_age"
+                        android:textColor="?android:attr/textColor"
+                        android:textSize="@dimen/_15sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/glVerticalCenter"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tlAge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        app:cursorColor="@color/app_color"
+                        app:hintEnabled="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/glVerticalCenter"
+                        app:layout_constraintTop_toBottomOf="@+id/tvAge">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etAge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/helvetica_regular"
+                            android:imeOptions="actionNext"
+                            android:includeFontPadding="false"
+                            android:inputType="number"
+                            android:longClickable="false"
+                            android:paddingHorizontal="@dimen/_16sdp"
+                            android:textColor="?android:attr/textColor"
+                            android:textColorHint="?attr/hintTextColor"
+                            android:textCursorDrawable="@drawable/green_cursor"
+                            android:textFontWeight="700"
+                            android:textSize="@dimen/_14sdp"
+                            android:textStyle="normal"
+                            tools:ignore="RtlSymmetry,UnusedAttribute" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/tvAddress"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:layout_marginTop="@dimen/_11sdp"
+                        android:fontFamily="@font/helvetica_bold"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:text="@string/txt_address"
+                        android:textColor="?android:attr/textColor"
+                        android:textSize="@dimen/_15sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/glVerticalCenter"
+                        app:layout_constraintTop_toBottomOf="@+id/tlAge" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tlAddress"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        app:cursorColor="@color/app_color"
+                        app:hintEnabled="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/glVerticalCenter"
+                        app:layout_constraintTop_toBottomOf="@+id/tvAddress">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/helvetica_regular"
+                            android:imeOptions="actionNext"
+                            android:includeFontPadding="false"
+                            android:inputType="text"
+                            android:longClickable="false"
+                            android:paddingHorizontal="@dimen/_16sdp"
+                            android:textColor="?android:attr/textColor"
+                            android:textColorHint="?attr/hintTextColor"
+                            android:textCursorDrawable="@drawable/green_cursor"
+                            android:textFontWeight="700"
+                            android:textSize="@dimen/_14sdp"
+                            android:textStyle="normal"
+                            tools:ignore="RtlSymmetry,UnusedAttribute" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/tvBGroup"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:layout_marginTop="@dimen/_11sdp"
+                        android:fontFamily="@font/helvetica_bold"
+                        android:paddingHorizontal="@dimen/_10sdp"
+                        android:text="@string/txt_blood_group"
+                        android:textColor="?android:attr/textColor"
+                        android:textSize="@dimen/_15sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/glVerticalCenter"
+                        app:layout_constraintTop_toBottomOf="@+id/tlAddress" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tlBGroup"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        app:cursorColor="@color/app_color"
+                        app:hintEnabled="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/glVerticalCenter"
+                        app:layout_constraintTop_toBottomOf="@+id/tvBGroup">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etBGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/helvetica_regular"
+                            android:imeOptions="actionDone"
+                            android:includeFontPadding="false"
+                            android:inputType="text"
+                            android:longClickable="false"
+                            android:paddingHorizontal="@dimen/_16sdp"
+                            android:textColor="?android:attr/textColor"
+                            android:textColorHint="?attr/hintTextColor"
+                            android:textCursorDrawable="@drawable/green_cursor"
+                            android:textFontWeight="700"
+                            android:textSize="@dimen/_14sdp"
+                            android:textStyle="normal"
+                            tools:ignore="RtlSymmetry,UnusedAttribute" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCreateProfile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_button_bg"
+                android:fontFamily="@font/helvetica_bold"
+                android:text="@string/txt_new_registration"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

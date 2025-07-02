@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+   <!-- <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivGallery"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginLeft="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:src="@drawable/ic_add_to_photos_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/_30sdp" />
+    &lt;!&ndash;    android:src="@drawable/ic_select_gallery"&ndash;&gt;
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvGallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/nunito_medium"
+        android:text="@string/txt_gallery"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/_13sdp"
+        app:layout_constraintEnd_toEndOf="@+id/ivGallery"
+        app:layout_constraintStart_toStartOf="@+id/ivGallery"
+        app:layout_constraintTop_toBottomOf="@id/ivGallery" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivCamera"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginLeft="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:src="@drawable/ic_add_24"
+        app:layout_constraintStart_toEndOf="@id/ivGallery"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/_30sdp" />
+    &lt;!&ndash;    android:src="@drawable/ic_select_camera"&ndash;&gt;
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/nunito_medium"
+        android:text="@string/txt_camera"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/_13sdp"
+        app:layout_constraintEnd_toEndOf="@+id/ivCamera"
+        app:layout_constraintStart_toStartOf="@+id/ivCamera"
+        app:layout_constraintTop_toBottomOf="@id/ivCamera" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_marginTop="10dp"
+        android:background="@color/app_color"
+        app:layout_constraintTop_toBottomOf="@id/tvGallery" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_medium"
+        android:gravity="center"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp"
+        android:text="@string/txt_cancel"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/_13sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view" />
+-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

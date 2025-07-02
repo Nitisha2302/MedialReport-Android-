@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glVerticalStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glVerticalEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glHorizontalTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.050" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glHorizontalBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clSearch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/glVerticalEnd"
+            app:layout_constraintStart_toStartOf="@id/glVerticalStart"
+            app:layout_constraintTop_toTopOf="@id/glHorizontalTop">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etSearch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_edittext_background"
+                android:hint="@string/txt_search"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:paddingHorizontal="@dimen/_5sdp"
+                android:paddingVertical="@dimen/_10sdp"
+                android:singleLine="true"
+                android:textColor="?android:attr/textColor"
+                android:textColorHint="?attr/hintTextColor"
+                android:textSize="@dimen/_13sdp"
+                android:fontFamily="@font/helvetica_regular"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/searchView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/searchView"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="0dp"
+                android:background="@drawable/search_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/_8sdp"
+                    android:src="@drawable/ic_search"
+                    app:tint="?attr/iconColor" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/glVerticalEnd"
+            app:layout_constraintStart_toStartOf="@id/glVerticalStart"
+            app:layout_constraintTop_toBottomOf="@+id/clSearch">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <HorizontalScrollView
+                    android:id="@+id/layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:fillViewport="true"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="none"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clLayoutHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <TableLayout
+                            android:id="@+id/table_heading_layout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+
+                            <TableRow
+                                android:id="@+id/tbPatientRow"
+                                android:layout_width="fill_parent"
+                                android:layout_margin="1dp"
+                                android:background="@drawable/cardview_background"
+                                android:elevation="@dimen/_4sdp">
+
+                                <TextView
+                                    android:id="@+id/tv_patient_id"
+                                    style="@style/table_header"
+                                    android:layout_width="@dimen/_40sdp"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/cardview_background"
+                                    android:gravity="center"
+                                    android:paddingVertical="@dimen/_6sdp"
+                                    android:text="@string/patient_id"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/tv_patient_name"
+                                    style="@style/table_header"
+                                    android:layout_width="@dimen/_100sdp"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/cardview_background"
+                                    android:gravity="center"
+                                    android:paddingVertical="@dimen/_6sdp"
+                                    android:text="@string/patient_name"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/tv_patient_age"
+                                    style="@style/table_header"
+                                    android:layout_width="@dimen/_50sdp"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/cardview_background"
+                                    android:gravity="center"
+                                    android:paddingVertical="@dimen/_6sdp"
+                                    android:text="@string/patient_age"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/tv_number"
+                                    style="@style/table_header"
+                                    android:layout_width="@dimen/_80sdp"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/cardview_background"
+                                    android:gravity="center"
+                                    android:paddingVertical="@dimen/_6sdp"
+                                    android:text="@string/patient_phone"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/tv_blood_group"
+                                    style="@style/table_header"
+                                    android:layout_width="@dimen/_80sdp"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/cardview_background"
+                                    android:gravity="center"
+                                    android:paddingVertical="@dimen/_6sdp"
+                                    android:text="@string/patient_blood_group"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/tv_date"
+                                    style="@style/table_header"
+                                    android:layout_width="@dimen/_100sdp"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/cardview_background"
+                                    android:gravity="center_vertical|center_horizontal"
+                                    android:paddingVertical="@dimen/_6sdp"
+                                    android:text="@string/patient_registered"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/tv_action"
+                                    style="@style/table_header"
+                                    android:layout_width="@dimen/_100sdp"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/cardview_background"
+                                    android:gravity="center_vertical|center_horizontal"
+                                    android:paddingVertical="@dimen/_6sdp"
+                                    android:text="@string/patient_action" />
+
+
+                            </TableRow>
+                        </TableLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlPatient"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/table_heading_layout">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvPatientHistory"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginVertical="@dimen/_4sdp"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                        </RelativeLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </HorizontalScrollView>
+
+                <TextView
+                    android:id="@+id/tvNoDataFound"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/helvetica_bold"
+                    android:text="@string/txt_no_patient_found"
+                    android:textColor="?android:attr/textColor"
+                    android:textSize="@dimen/_17sdp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="progress_bg_color" format="reference|color" />
+    <attr name="textColor" format="reference|color" />
+    <attr name="editTextColor" format="color"/>
+    <attr name="hintTextColor" format="color"/>
+    <attr name="iconColor" format="color"/>
+    <attr name="cardBackgroundColor" format="color"/>
+</resources>

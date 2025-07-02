@@ -1,0 +1,111 @@
+<resources>
+    <string name="app_name">DocPortal</string>
+
+    <!-- Network Error -->
+    <string name="apiResponseErr">There is some issue in the api.</string>
+    <string name="connection_lost">Connection lost. Please check your internet connection.</string>
+    <string name="connectErr">Network unavailable.\nPlease check and try again.</string>
+    <string name="timeoutErr">There was a connection error.\nPlease try after sometime.</string>
+    <string name="serverErr">Unable to connect remote server.\nPlease try after sometime.</string>
+    <string name="account_logged_on_another_device">Your account has been login from any another device.</string>
+    <string name="account_block">Your account has been blocked from admin.</string>
+    <string name="no_internet_connection">Your internet connection appears to be offline. Please try again.</string>
+    <string name="something_went_wrong">Something went wrong</string>
+
+    <!-- Splash Screen -->
+    <string name="title_motivation_title">" innovations beyond imagination "</string>
+
+    <!-- Login Screen -->
+    <string name="title_login">Login</string>
+    <string name="title_email">Email</string>
+    <string name="title_password">Password</string>
+    <string name="title_forgot_password"><u>Forgot Password?</u></string>
+
+    <!-- Forgot Password Screen -->
+    <string name="txt_reset_password">Reset password</string>
+    <string name="txt_link_reset_password">Password Reset</string>
+
+    <!-- Auth validations -->
+    <string name="error_enter_email">Please enter email address</string>
+    <string name="error_enter_valid_email">Please enter valid email address</string>
+    <string name="error_enter_password">Please enter password</string>
+    <string name="error_password_length">Minimum length of password should be 8 or greater than!</string>
+
+    <!-- Success Dialog -->
+    <string name="txt_success">Success</string>
+    <string name="title_login_successful">Login Successfully..</string>
+    <string name="txt_ok">OK</string>
+
+    <!--Menu titles -->
+    <string name="menu_home">Home</string>
+    <string name="menu_patients">Patients</string>
+    <string name="men_new_patient">New Patient</string>
+    <string name="menu_all_patient">All Patients</string>
+    <string name="menu_prescription">Prescriptions</string>
+    <string name="menu_notifications">Notifications</string>
+    <string name="menu_diagnosis_report">Report</string>
+    <string name="menu_feedback">Feedback</string>
+    <string name="menu_terms_and_condition">Terms &amp; Condition</string>
+    <string name="menu_privacy_policy">Privacy Policy</string>
+    <string name="menu_customer_feedback">Customer Feedback</string>
+    <string name="menu_update_account">Update Account</string>
+    <string name="menu_logout">Logout</string>
+
+    <!-- Navigation -->
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+
+    <!-- Home Screen -->
+    <string name="txt_patient_history">Patient History</string>
+    <string name="txt_new_patient_register">Register New Patient</string>
+    <string name="txt_recent_report">Recent Reports</string>
+    <string name="txt_no_recent_report">No Recent Reports </string>
+
+    <!-- New Patient Register/Update Patient -->
+    <string name="txt_new_patient_registration">New Patient Registration</string>
+    <string name="txt_new_registration">New Registration</string>
+    <string name="txt_update_profile">Update Profile</string>
+
+
+    <!--All Patient List -->
+    <string name="txt_search">Search...</string>
+    <string name="patient_id">ID</string>
+    <string name="patient_name">Patient Name</string>
+    <string name="patient_age">Age</string>
+    <string name="patient_phone">Phone</string>
+    <string name="patient_blood_group">Blood Group</string>
+    <string name="patient_registered">Registered On</string>
+    <string name="patient_action">Actions</string>
+    <string name="txt_no_patient_found">No Patient Found...</string>
+
+    <!-- Doctor/Patient Profile -->
+    <string name="txt_full_name">Full Name *</string>
+    <string name="hint_full_name">Enter Full Name</string>
+    <string name="txt_email_id">Email Id</string>
+    <string name="hint_email_id">Enter Email Address</string>
+    <string name="txt_address">Address (optional)</string>
+    <string name="hint_address">Enter Address</string>
+    <string name="txt_username">Username</string>
+    <string name="txt_phone_number">Phone Number *</string>
+    <string name="hint_phone_number">Enter Phone Number</string>
+    <string name="txt_hospital_name">Hospital Name *</string>
+    <string name="txt_hospital_number">Hospital Number *</string>
+    <string name="txt_hospital_address">Hospital Address *</string>
+    <string name="txt_age">Age (optional)</string>
+    <string name="hint_age">Enter Age</string>
+    <string name="txt_gender">Gender *</string>
+    <string name="hint_gender">Select Gender</string>
+    <string name="txt_specialized_in">Specialized In... *</string>
+    <string name="txt_bio">Bio</string>
+    <string name="txt_date_of_birth">Date of Birth</string>
+    <string name="txt_hint_dateofbirth">YYYY-MM-DD</string>
+    <string name="txt_blood_group">Blood Group (optional)</string>
+    <string name="hint_blood_group">Enter Blood Group</string>
+    <string name="txt_patient_weight">Patient Weight</string>
+
+    <!-- Logout -->
+    <string name="txt_logout">Logout</string>
+    <string name="txt_logout_desc">Are you sure want to logout?</string>
+    <string name="txt_cancel">Cancel</string>
+
+</resources>

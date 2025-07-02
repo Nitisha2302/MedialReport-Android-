@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_navigation"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.medicalreport.view.main.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/nav_patient"
+        android:name="com.medicalreport.view.main.patients.AllPatientsFragment"
+        android:label="AllPatientsFragment"
+        tools:layout="@layout/fragment_all_patients" />
+    <fragment
+        android:id="@+id/newPatientFragment"
+        android:name="com.medicalreport.view.main.patients.NewPatientFragment"
+        android:label="NewPatientFragment"
+        tools:layout="@layout/fragment_new_patient" />
+    <fragment
+        android:id="@+id/nav_doctorProfile"
+        android:name="com.medicalreport.view.main.DoctorUpdateProfileFragment"
+        android:label="DoctorUpdateProfileFragment"
+        tools:layout="@layout/fragment_doctor_update_profile" />
+    <fragment
+        android:id="@+id/nav_termsCondition"
+        android:name="com.medicalreport.view.main.settings.TermsConditionFragment"
+        android:label="TermsConditionFragment"
+        tools:layout="@layout/fragment_terms_condition" />
+    <fragment
+        android:id="@+id/nav_privacyPolicy"
+        android:name="com.medicalreport.view.main.settings.PrivacyPolicyFragment"
+        android:label="PrivacyPolicyFragment"
+        tools:layout="@layout/fragment_privacy_policy" />
+    <dialog
+        android:id="@+id/nav_logout"
+        android:name="com.medicalreport.view.main.settings.LogoutFragment"
+        android:label="LogoutFragment"
+        tools:layout="@layout/fragment_logout" />
+    <fragment
+        android:id="@+id/nav_notification"
+        android:name="com.medicalreport.view.main.settings.NotificationFragment"
+        android:label="NotificationFragment"
+        tools:layout="@layout/fragment_notification" />
+
+
+</navigation>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/menu_home" />
+    <item
+        android:id="@+id/nav_patient"
+        android:icon="@drawable/ic_patient"
+        android:title="@string/menu_patients" />
+    <item
+        android:id="@+id/nav_notification"
+        android:icon="@drawable/ic_notification"
+        android:title="@string/menu_notifications" />
+    <item
+        android:id="@+id/nav_terms_and_condition"
+        android:icon="@drawable/ic_terms_and_conditions"
+        android:title="@string/menu_terms_and_condition" />
+    <item
+        android:id="@+id/nav_privacy_policy"
+        android:icon="@drawable/ic_privacy_policy"
+        android:title="@string/menu_privacy_policy" />
+
+    <item
+        android:id="@+id/nav_doctorProfile"
+        android:icon="@drawable/ic_feedback"
+        android:title="@string/menu_update_account" />
+
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/menu_logout" />
+
+</menu>
