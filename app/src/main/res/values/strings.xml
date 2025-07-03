@@ -31,6 +31,18 @@
     <string name="error_enter_password">Please enter password</string>
     <string name="error_password_length">Minimum length of password should be 8 or greater than!</string>
 
+    <!-- Doctor Profile validations -->
+    <string name="error_enter_fullName">Please enter full name</string>
+    <string name="error_enter_phone_number">Please enter phone number</string>
+    <string name="error_enter_valid_number">Please enter valid number</string>
+    <string name="error_enter_age">Please enter age</string>
+    <string name="error_enter_hospital_name">Please enter hospital name</string>
+    <string name="error_enter_hospital_address">Please enter hospital address</string>
+    <string name="error_enter_hospital_number">Please enter hospital number</string>
+    <string name="error_enter_valid_hospital_number">Please enter valid hospital number</string>
+    <string name="error_select_gender">Please select gender</string>
+    <string name="error_enter_specialized_in">Please enter specialized in...</string>
+
     <!-- Success Dialog -->
     <string name="txt_success">Success</string>
     <string name="title_login_successful">Login Successfully..</string>
@@ -91,7 +103,7 @@
     <string name="txt_hospital_name">Hospital Name *</string>
     <string name="txt_hospital_number">Hospital Number *</string>
     <string name="txt_hospital_address">Hospital Address *</string>
-    <string name="txt_age">Age (optional)</string>
+    <string name="txt_age">Age *</string>
     <string name="hint_age">Enter Age</string>
     <string name="txt_gender">Gender *</string>
     <string name="hint_gender">Select Gender</string>
@@ -107,5 +119,8 @@
     <string name="txt_logout">Logout</string>
     <string name="txt_logout_desc">Are you sure want to logout?</string>
     <string name="txt_cancel">Cancel</string>
+
+    <!-- Notification -->
+    <string name="title_no_notification">No notifications yet...</string>
 
 </resources>

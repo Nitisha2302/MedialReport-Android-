@@ -218,7 +218,7 @@
                     android:layout_marginVertical="@dimen/_14sdp"
                     android:fontFamily="@font/helvetica_bold"
                     android:text="@string/txt_no_recent_report"
-                    android:textColor="@color/black"
+                    android:textColor="?android:attr/textColor"
                     android:textSize="@dimen/_16sdp"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"

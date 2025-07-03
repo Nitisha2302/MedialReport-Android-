@@ -118,6 +118,7 @@ abstract class BaseFragment<DataBinding : ViewDataBinding> : Fragment() {
         imm.hideSoftInputFromWindow(v.windowToken, 0)
     }
 
+
     protected fun showProgressDialog() {
         if (progressDialog == null) progressDialog =
             Dialog(requireContext(), R.style.progressDialogStyle)

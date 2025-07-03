@@ -36,8 +36,8 @@ class HomeDataSourceImpl(
         }
     }
 
-    override suspend fun getDoctorProfile(): DoctorProfileResponse {
-        var baseResponse = DoctorProfileResponse()
+    override suspend fun getDoctorProfile(): DocProfileResponse {
+        var baseResponse = DocProfileResponse()
         try {
             baseResponse = api.getDoctorProfile()
         } catch (e: Exception) {
@@ -54,9 +54,9 @@ class HomeDataSourceImpl(
         var baseResponse = DocProfileResponse()
         try {
             baseResponse = api.updateDoctor(params, imagePart)
-            baseResponse.success = true
+            baseResponse.status = true
         } catch (e: Exception) {
-            baseResponse.success = false
+            baseResponse.status = false
             baseResponse.message = ApiService.getErrorMessageFromGenericResponse(e, resources)
         } finally {
             return baseResponse

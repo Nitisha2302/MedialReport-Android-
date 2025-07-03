@@ -66,7 +66,7 @@ open class BaseDialogFragment : DialogFragment() {
 
     }
 
-    private fun showNoInternetAlert() {
+    protected fun showNoInternetAlert() {
         if (!isNightMode(activity)) {
             // Light mode
             activity?.let { showInternetToast(it,getString(R.string.connection_lost)) }

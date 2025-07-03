@@ -7,7 +7,7 @@ data class ForgotPasswordResponse(
     @field:SerializedName("data")
     val data: FPasswordData? = null,
 
-    @field:SerializedName("success")
+    @field:SerializedName("status")
     var status: Boolean = false,
 
     @field:SerializedName("message")

@@ -1,12 +1,6 @@
 package com.medicalreport.view.auth
 
-import android.content.res.Configuration
-import android.os.Bundle
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.medicalreport.R
 import com.medicalreport.base.BaseFragment
@@ -14,19 +8,21 @@ import com.medicalreport.databinding.FragmentForgotPasswordBinding
 import com.medicalreport.utils.EdTextWatcher
 import com.medicalreport.utils.Util
 import com.medicalreport.utils.Util.checkIfHasNetwork
-import com.medicalreport.utils.Util.showDarkInternetToast
-import com.medicalreport.utils.Util.showInternetToast
 import com.medicalreport.utils.disableMultiTap
+import com.medicalreport.viewmodel.AuthViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding>() {
+    private val viewModel by viewModel<AuthViewModel>()
     private lateinit var mBinding: FragmentForgotPasswordBinding
     private var email: String = ""
+
     override val fragmentLayoutId: Int
         get() = R.layout.fragment_forgot_password
 
     override fun setUpUi(binding: FragmentForgotPasswordBinding) {
-       mBinding = binding
+        mBinding = binding
         email = arguments?.getString("emailId").toString()
         mBinding.etEmail.setText(email)
         initView()
@@ -34,7 +30,25 @@ class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding>() {
     }
 
     override fun setupObservers() {
+        viewModel.showLoading.observe(viewLifecycleOwner) {
+            if (it == true) {
+                showProgressDialog()
+            } else {
+                hideProgress()
+            }
+        }
 
+        viewModel.toastMessage.observe(viewLifecycleOwner) {
+            if (!TextUtils.isEmpty(it)) {
+                showSuccessAlert(it)
+            }
+        }
+
+        viewModel.errorToastMessage.observe(viewLifecycleOwner) {
+            if (!TextUtils.isEmpty(it)) {
+                showErrorAlert(it)
+            }
+        }
     }
 
 
@@ -55,7 +69,11 @@ class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding>() {
         mBinding.btnStart.setOnClickListener {
             if (checkIfHasNetwork()) {
                 if (checkEmailValidations()) {
-                    findNavController().navigateUp()
+                    viewModel.resetPassword(email) {
+                        if (it) {
+                            findNavController().navigateUp()
+                        }
+                    }
                 }
             } else {
                 showNoInternetAlert()

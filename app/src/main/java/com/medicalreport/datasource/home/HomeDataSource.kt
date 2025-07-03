@@ -22,7 +22,7 @@ import okhttp3.RequestBody
 interface HomeDataSource {
     suspend fun logout(): LogoutResponse
 
-    suspend fun getDoctorProfile(): DoctorProfileResponse
+    suspend fun getDoctorProfile(): DocProfileResponse
 
     suspend fun updateDoctor(
         params: Map<String?, RequestBody>,

@@ -114,7 +114,6 @@
                     android:id="@+id/tvUserName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
                     android:fontFamily="@font/helvetica_bold"
                     android:paddingHorizontal="@dimen/_10sdp"
                     android:text="@string/txt_username"
@@ -129,7 +128,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
-
                     app:hintEnabled="false"
                     app:cursorColor="@color/app_color"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -166,7 +164,6 @@
                     android:id="@+id/tvFullName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
                     android:layout_marginTop="@dimen/_11sdp"
                     android:fontFamily="@font/helvetica_bold"
                     android:paddingHorizontal="@dimen/_10sdp"
@@ -182,7 +179,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
-
                     app:hintEnabled="false"
                     app:cursorColor="@color/app_color"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -218,7 +214,6 @@
                     android:id="@+id/tvPhoneNumber"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
                     android:fontFamily="@font/helvetica_bold"
                     android:paddingHorizontal="@dimen/_10sdp"
                     android:text="@string/txt_phone_number"
@@ -236,7 +231,6 @@
                     app:hintEnabled="false"
                     app:cursorColor="@color/app_color"
                     android:layout_marginTop="@dimen/_2sdp"
-
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvPhoneNumber">
@@ -271,7 +265,6 @@
                     android:id="@+id/tvHospitalName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
                     android:fontFamily="@font/helvetica_bold"
                     android:paddingHorizontal="@dimen/_10sdp"
                     android:text="@string/txt_hospital_name"
@@ -287,7 +280,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
-
                     app:hintEnabled="false"
                     app:cursorColor="@color/app_color"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -318,11 +310,11 @@
                         tools:ignore="RtlSymmetry,UnusedAttribute" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <TextView
                     android:id="@+id/tvHospitalAddress"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
                     android:fontFamily="@font/helvetica_bold"
                     android:paddingHorizontal="@dimen/_10sdp"
                     android:text="@string/txt_hospital_address"
@@ -340,7 +332,6 @@
                     android:layout_marginTop="@dimen/_2sdp"
                     app:hintEnabled="false"
                     app:cursorColor="@color/app_color"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvHospitalAddress">
@@ -388,7 +379,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
-
                     app:hintEnabled="false"
                     app:cursorColor="@color/app_color"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -425,7 +415,6 @@
                     android:id="@+id/tvAddress"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
                     android:fontFamily="@font/helvetica_bold"
                     android:paddingHorizontal="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_11sdp"
@@ -441,7 +430,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
-
                     app:hintEnabled="false"
                     app:cursorColor="@color/app_color"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -475,7 +463,6 @@
                     android:id="@+id/tvGender"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
                     android:fontFamily="@font/helvetica_bold"
                     android:paddingHorizontal="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_11sdp"
@@ -491,7 +478,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
-
                     app:endIconCheckable="true"
                     app:endIconDrawable="@drawable/ic_arrow_drop_down"
                     app:endIconMode="dropdown_menu"
@@ -531,7 +517,6 @@
                     android:id="@+id/tvSpecialized"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
                     android:fontFamily="@font/helvetica_bold"
                     android:paddingHorizontal="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_11sdp"
@@ -547,7 +532,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
-
                     app:hintEnabled="false"
                     app:cursorColor="@color/app_color"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -584,7 +568,6 @@
                     android:id="@+id/tvBio"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
                     android:fontFamily="@font/helvetica_bold"
                     android:paddingHorizontal="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_11sdp"
@@ -603,7 +586,8 @@
                     android:autofillHints="none"
                     android:background="@drawable/edittext_bg"
                     android:imeOptions="actionDone"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
+                    android:textAlignment="textStart"
                     android:paddingVertical="@dimen/_11sdp"
                     android:paddingStart="@dimen/_16sdp"
                     android:textColor="?android:attr/textColor"

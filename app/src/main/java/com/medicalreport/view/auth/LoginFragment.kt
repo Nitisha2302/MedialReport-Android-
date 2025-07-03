@@ -17,9 +17,13 @@ import com.medicalreport.utils.Util.isValidEmailId
 import com.medicalreport.utils.Util.showDarkInternetToast
 import com.medicalreport.utils.Util.showInternetToast
 import com.medicalreport.utils.disableMultiTap
+import com.medicalreport.viewmodel.AuthViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.getValue
 
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
+    private val viewModel by viewModel<AuthViewModel>()
     private lateinit var mBinding: FragmentLoginBinding
     private var email: String = ""
     private var password: String = ""
@@ -34,16 +38,26 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     override fun setupObservers() {
+        viewModel.showLoading.observe(viewLifecycleOwner) {
+            if (it == true) {
+                showProgressDialog()
+            } else {
+                hideProgress()
+            }
+        }
+
+        viewModel.toastMessage.observe(viewLifecycleOwner) {
+            if (!TextUtils.isEmpty(it)) {
+                showSuccessAlert(it)
+            }
+        }
+
+        viewModel.errorToastMessage.observe(viewLifecycleOwner) {
+            if (!TextUtils.isEmpty(it)) {
+                showErrorAlert(it)
+            }
+        }
     }
-
-    /*override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        mBinding = FragmentLoginBinding.inflate(inflater, container, false)
-
-        return mBinding.root
-    }*/
 
     private fun initView() {
         mBinding.etEmail.addTextChangedListener(object : EdTextWatcher() {
@@ -67,7 +81,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             v.disableMultiTap()
             if (checkIfHasNetwork()) {
                 if (checkLoginValidations()) {
-                    findNavController().navigate(R.id.successDialogFragment)
+                    viewModel.login(email, password) {
+                        if (it) {
+                            findNavController().navigate(R.id.successDialogFragment)
+                        }
+                    }
                 }
             } else {
                 showNoInternetAlert()

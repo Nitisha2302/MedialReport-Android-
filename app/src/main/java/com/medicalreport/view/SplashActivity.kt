@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import com.medicalreport.R
 import com.medicalreport.base.MainApplication
 import com.medicalreport.databinding.ActivitySplashBinding
+import com.medicalreport.utils.Prefs
 import com.medicalreport.view.auth.AuthActivity
 import com.medicalreport.view.main.MainActivity
 
@@ -18,10 +19,19 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_splash)
         MainApplication.get().setCurrentActivity(this)
-        Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, AuthActivity::class.java))
-            finish()
-        }, 4000)
+    }
 
+    override fun onStart() {
+        super.onStart()
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (!Prefs.init().email.isEmpty()) {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            } else {
+                startActivity(Intent(this, AuthActivity::class.java))
+                finish()
+            }
+
+        }, 4000)
     }
 }

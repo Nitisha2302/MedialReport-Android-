@@ -7,8 +7,8 @@ data class DoctorProfileResponse(
     @field:SerializedName("data")
     val data: DoctorProfileData? = null,
 
-    @field:SerializedName("success")
-    val status: Boolean = false,
+    @field:SerializedName("status")
+    var status: Boolean = false,
 
     @field:SerializedName("message")
     var message: String? = null

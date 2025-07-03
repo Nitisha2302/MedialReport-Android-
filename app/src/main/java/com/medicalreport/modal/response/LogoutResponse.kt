@@ -7,7 +7,7 @@ data class LogoutResponse(
     @field:SerializedName("data")
     val data: LogoutData? = null,
 
-    @field:SerializedName("success")
+    @field:SerializedName("status")
     val status: Boolean = false,
 
     @field:SerializedName("errors")

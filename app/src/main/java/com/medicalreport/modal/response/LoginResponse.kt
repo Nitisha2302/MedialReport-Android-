@@ -6,7 +6,7 @@ data class LoginResponse(
     @SerializedName("data")
     var data: LoginData? = null,
 
-    @SerializedName("success")
+    @SerializedName("status")
     var status: Boolean = false,
 
     @field:SerializedName("errors")
@@ -46,7 +46,7 @@ data class LoginData(
     var deletedAt: Any? = null,
 
     @JvmField
-    @SerializedName("token")
+    @SerializedName("api_token")
     var token: String? = null,
 
     @SerializedName("updated_at")

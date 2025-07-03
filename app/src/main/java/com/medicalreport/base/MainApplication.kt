@@ -6,6 +6,12 @@ import android.app.Application
 import android.content.Context
 import android.os.StrictMode
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.medicalreport.module.apiModule
+import com.medicalreport.module.dataSourceModule
+import com.medicalreport.module.networkModule
+import com.medicalreport.module.providerModule
+import com.medicalreport.module.repoModule
+import com.medicalreport.module.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 
@@ -47,14 +53,13 @@ class MainApplication: Application() {
         startKoin {
             androidContext(this@MainApplication)
             modules(
-               /* networkModule,
+                networkModule,
                 repoModule,
                 dataSourceModule,
-                databaseModule,
                 networkModule,
                 apiModule,
                 viewModelModule,
-                providerModule*/
+                providerModule
             )
         }
     }

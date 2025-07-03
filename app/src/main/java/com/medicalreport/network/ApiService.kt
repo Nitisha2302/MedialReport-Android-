@@ -46,7 +46,7 @@ interface ApiService {
     suspend fun getPasswordReset(@Body request: ForgotPasswordRequest): ForgotPasswordResponse
 
     @GET("doctor/profile")
-    suspend fun getDoctorProfile(): DoctorProfileResponse
+    suspend fun getDoctorProfile(): DocProfileResponse
 
     @Multipart
     @POST("doctor/update")

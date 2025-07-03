@@ -5,16 +5,16 @@ import com.google.gson.annotations.SerializedName
 data class DocProfileResponse(
 
     @field:SerializedName("data")
-    val data: DocData? = null,
+    val data: DocDetailData? = null,
 
-    @field:SerializedName("success")
-    var success: Boolean = false,
+    @field:SerializedName("status")
+    var status: Boolean? = null,
 
     @field:SerializedName("message")
     var message: String? = null
 )
 
-data class DocData(
+data class DocDetailData(
 
     @field:SerializedName("specialized")
     val specialized: String? = null,
@@ -28,6 +28,9 @@ data class DocData(
     @field:SerializedName("gender")
     val gender: String? = null,
 
+    @field:SerializedName("api_token")
+    val apiToken: String? = null,
+
     @field:SerializedName("created_at")
     val createdAt: String? = null,
 
@@ -35,10 +38,10 @@ data class DocData(
     val bio: String? = null,
 
     @field:SerializedName("email_verified_at")
-    val emailVerifiedAt: Any? = null,
+    val emailVerifiedAt: String? = null,
 
     @field:SerializedName("deleted_at")
-    val deletedAt: Any? = null,
+    val deletedAt: String? = null,
 
     @field:SerializedName("updated_at")
     val updatedAt: String? = null,
@@ -49,24 +52,24 @@ data class DocData(
     @field:SerializedName("name")
     val name: String? = null,
 
+    @field:SerializedName("hospital_phone")
+    val hospitalPhone: String? = null,
+
     @field:SerializedName("id")
     val id: Int? = null,
 
     @field:SerializedName("email")
     val email: String? = null,
 
+    @field:SerializedName("hospital_logo")
+    val hospitalLogo: String? = null,
+
+    @field:SerializedName("hospital_address")
+    val hospitalAddress: String? = null,
+
     @field:SerializedName("username")
     val username: String? = null,
 
     @field:SerializedName("hospital_name")
-    var hospital_name: String? = null,
-
-    @field:SerializedName("hospital_address")
-    var hospital_address: String? = null,
-
-    @field:SerializedName("hospital_phone")
-    var hospital_phone: String? = null,
-
-    @field:SerializedName("hospital_logo")
-    var hospital_logo: String? = null,
+    val hospitalName: String? = null
 )
