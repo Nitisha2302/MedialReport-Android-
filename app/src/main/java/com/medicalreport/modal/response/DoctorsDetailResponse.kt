@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 data class DoctorsDetailResponse(
 
 	@field:SerializedName("data")
-	val data: List<DoctorsDataItem>? = null,
+	val data: ArrayList<DoctorsDataItem>? = null,
 
-	@field:SerializedName("success")
+	@field:SerializedName("status")
 	var success: Boolean? = null,
 
 	@field:SerializedName("message")

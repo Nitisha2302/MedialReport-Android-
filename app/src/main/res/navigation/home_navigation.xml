@@ -45,6 +45,26 @@
         android:name="com.medicalreport.view.main.settings.NotificationFragment"
         android:label="NotificationFragment"
         tools:layout="@layout/fragment_notification" />
+    <fragment
+        android:id="@+id/nav_updatePatient"
+        android:name="com.medicalreport.view.main.patients.UpdatePatientFragment"
+        android:label="UpdatePatientFragment"
+        tools:layout="@layout/fragment_update_patient" />
+    <fragment
+        android:id="@+id/nav_patientProfile"
+        android:name="com.medicalreport.view.main.patients.PatientProfileFragment"
+        android:label="PatientProfileFragment"
+        tools:layout="@layout/fragment_patient_profile" />
+    <dialog
+        android:id="@+id/nav_patientCreatedSuccess"
+        android:name="com.medicalreport.view.main.dialog.PatientCreatedSuccessFragment"
+        android:label="PatientCreatedSuccessFragment"
+        tools:layout="@layout/fragment_patient_created_success" />
+    <dialog
+        android:id="@+id/nav_doctorsListDialog"
+        android:name="com.medicalreport.view.main.dialog.DoctorsListDialogFragment"
+        android:label="DoctorsListDialogFragment"
+        tools:layout="@layout/fragment_doctors_list_dialog" />
 
 
 </navigation>

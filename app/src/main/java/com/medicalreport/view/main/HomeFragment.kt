@@ -14,6 +14,7 @@ import com.medicalreport.utils.disableMultiTap
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private lateinit var mBinding: FragmentHomeBinding
+    private var bundle = Bundle()
     override val fragmentLayoutId: Int
         get() = R.layout.fragment_home
 
@@ -26,6 +27,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         mBinding.clNewPatient.setOnClickListener {
             it.disableMultiTap()
             findNavController().navigate(R.id.newPatientFragment)
+        }
+        mBinding.mcvPatientHistory.setOnClickListener {
+            it.disableMultiTap()
+            bundle.putString("fromWhere", "patientHistory")
+            findNavController().navigate(R.id.nav_patient)
         }
     }
 

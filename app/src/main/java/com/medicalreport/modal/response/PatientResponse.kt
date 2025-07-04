@@ -7,7 +7,7 @@ data class PatientResponse(
     @field:SerializedName("data")
     val data: ArrayList<PatientData>? = null,
 
-    @field:SerializedName("success")
+    @field:SerializedName("status")
     var status: Boolean = false,
 
     @field:SerializedName("message")

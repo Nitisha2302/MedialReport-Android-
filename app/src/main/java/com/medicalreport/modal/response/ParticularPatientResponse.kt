@@ -7,7 +7,7 @@ data class ParticularPatientResponse(
     @field:SerializedName("data")
     val data: PProfileData? = null,
 
-    @field:SerializedName("success")
+    @field:SerializedName("status")
     var status: Boolean = false,
 
     @field:SerializedName("message")

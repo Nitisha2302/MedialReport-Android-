@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TableLayout
+            android:id="@+id/table_heading_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_table">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_margin="1dp">
+
+                <TextView
+                    android:id="@+id/tv_patient_id"
+                    style="@style/table_row_item"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_table"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/_6sdp"
+                    android:text="@string/patient_id"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/tv_patient_name"
+                    style="@style/table_row_item"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_table"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/_6sdp"
+                    android:text="@string/patient_name"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/tv_patient_age"
+                    style="@style/table_row_item"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_table"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/_6sdp"
+                    android:text="@string/patient_age"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/tv_number"
+                    style="@style/table_row_item"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_table"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/_6sdp"
+                    android:text="@string/patient_phone"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/tv_blood_group"
+                    style="@style/table_row_item"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_table"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/_6sdp"
+                    android:text="@string/patient_blood_group"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    style="@style/table_row_item"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_table"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:paddingVertical="@dimen/_6sdp"
+                    android:text="@string/patient_registered"
+                    android:textAlignment="center" />
+
+                <LinearLayout
+                    android:id="@+id/tv_action"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_table"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal"
+                    android:paddingVertical="@dimen/_6sdp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/mcvViewPatient"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginHorizontal="@dimen/_5sdp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:strokeColor="@color/green_color">
+
+                        <ImageView
+                            android:id="@+id/ivView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:src="@drawable/ic_eye"
+                            app:tint="@color/green_color" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/mcvEditPatient"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginHorizontal="@dimen/_5sdp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:strokeColor="@color/yellow_color">
+
+                        <ImageView
+                            android:id="@+id/ivEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:src="@drawable/ic_feedback"
+                            app:tint="@color/yellow_color" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/mcvPdfPatient"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginHorizontal="@dimen/_5sdp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:strokeColor="@color/redColor">
+
+                        <ImageView
+                            android:id="@+id/ivPdf"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:src="@drawable/ic_pdf_" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/mcvSharePdf"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginHorizontal="@dimen/_5sdp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:strokeColor="@color/blue_color">
+
+                        <ImageView
+                            android:id="@+id/ivSharePdf"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:src="@drawable/ic_share_"
+                            app:tint="@color/blue_color" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+</layout>

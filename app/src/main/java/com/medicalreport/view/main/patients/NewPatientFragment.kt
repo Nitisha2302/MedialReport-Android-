@@ -7,19 +7,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.navigation.fragment.findNavController
 import com.medicalreport.R
 import com.medicalreport.base.BaseFragment
 import com.medicalreport.databinding.FragmentNewPatientBinding
+import com.medicalreport.modal.response.SelectedDoctorsResponse
 import com.medicalreport.utils.EdTextWatcher
 import com.medicalreport.utils.Util
 import com.medicalreport.utils.disableMultiTap
+import com.medicalreport.view.main.dialog.DoctorsListDialogFragment
+import com.medicalreport.view.main.dialog.PatientCreatedSuccessFragment
 import com.medicalreport.viewmodel.HomeViewModel
 import com.medicalreport.viewmodel.PatientViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
 
 
-class NewPatientFragment : BaseFragment<FragmentNewPatientBinding>() {
+class NewPatientFragment : BaseFragment<FragmentNewPatientBinding>(),
+    PatientCreatedSuccessFragment.ClickListener, DoctorsListDialogFragment.ClickListener {
     private val viewModel by viewModel<PatientViewModel>()
     private lateinit var mBinding: FragmentNewPatientBinding
     private var gender: String? = null
@@ -28,6 +33,8 @@ class NewPatientFragment : BaseFragment<FragmentNewPatientBinding>() {
     private var age: String = ""
     private var phoneNumber: String = ""
     private var bloodGroup: String = ""
+    private var successDialogFragment = PatientCreatedSuccessFragment()
+    private var doctorsLisDialogFragment = DoctorsListDialogFragment()
 
 
     override val fragmentLayoutId: Int
@@ -67,7 +74,10 @@ class NewPatientFragment : BaseFragment<FragmentNewPatientBinding>() {
                 if (checkValidations()) {
                     viewModel.newPatientProfile(
                         gender.toString(), fullName, address, age, phoneNumber, bloodGroup
-                    ) { }
+                    ) {
+                        successDialogFragment.setTargetFragment(this, DIALOG_SUCCESS)
+                        successDialogFragment.show(requireFragmentManager(), "SuccessDialog")
+                    }
                 }
             } else {
                 showNoInternetAlert()
@@ -144,5 +154,28 @@ class NewPatientFragment : BaseFragment<FragmentNewPatientBinding>() {
         }
     }
 
+    override fun onClickHome() {
+        findNavController().navigateUp()
+        successDialogFragment.dialog?.dismiss()
+    }
+
+    override fun onClickCreateReport() {
+        successDialogFragment.dialog?.dismiss()
+        doctorsLisDialogFragment.setTargetFragment(
+            this,
+            DIALOG_DOCTORS_SUCCESS
+        )
+        doctorsLisDialogFragment.show(requireFragmentManager(), "DoctorsListDialog")
+    }
+
+    override fun onSelectedDoctorsList(selectedDoctors: ArrayList<SelectedDoctorsResponse>) {
+        doctorsLisDialogFragment.dialog?.dismiss()
+    }
+
+    companion object {
+        const val DIALOG_SUCCESS = 1
+        const val DIALOG_DOCTORS_SUCCESS = 1
+
+    }
 
 }

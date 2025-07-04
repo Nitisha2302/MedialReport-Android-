@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.medicalreport.base.ParentViewModel
 import com.medicalreport.modal.request.DoctorProfileRequest
 import com.medicalreport.modal.response.DocDetailData
+import com.medicalreport.modal.response.DoctorsDataItem
 import com.medicalreport.repository.auth.AuthRepository
 import com.medicalreport.repository.home.HomeRepository
 import com.medicalreport.utils.Prefs
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel(private val homeRepository: HomeRepository) : ParentViewModel() {
     var doctorUpdateRequest = ObservableField(DoctorProfileRequest())
     var doctorProfile = MutableLiveData<DocDetailData?>()
+    val doctorsListProfile = MutableLiveData<ArrayList<DoctorsDataItem>>()
 
     fun getDocProfile(
         onResult: (isSuccess: Boolean) -> Unit
@@ -77,6 +79,28 @@ class HomeViewModel(private val homeRepository: HomeRepository) : ParentViewMode
                     }
                 }
             }
+
+        }
+    }
+
+    fun getDoctorsList(onResult: (isSuccess: Boolean) -> Unit) {
+        viewModelScope.launch {
+            showLoading.postValue(true)
+            homeRepository.getDoctorsDetailList() { isSuccess, response ->
+                showLoading.postValue(false)
+                if (response.success == true) {
+                    onResult(true)
+                    toastMessage.postValue(response.message)
+                    response.data?.let {
+                        doctorsListProfile.postValue(it)
+                    }
+
+                } else {
+                    errorToastMessage.postValue(response.message)
+                    onResult(false)
+                }
+            }
+
 
         }
     }

@@ -4,9 +4,13 @@ import android.text.TextUtils
 import com.medicalreport.datasource.home.HomeDataSource
 import com.medicalreport.modal.request.DoctorProfileRequest
 import com.medicalreport.modal.request.PatientProfileRequest
+import com.medicalreport.modal.request.UpdatePatientProfileRequest
 import com.medicalreport.modal.response.DocProfileResponse
+import com.medicalreport.modal.response.DoctorsDetailResponse
 import com.medicalreport.modal.response.LogoutResponse
+import com.medicalreport.modal.response.ParticularPatientResponse
 import com.medicalreport.modal.response.PatientProfileResponse
+import com.medicalreport.modal.response.PatientResponse
 import com.medicalreport.utils.createPartFromString
 import com.medicalreport.utils.toImageRequestBody
 import com.medicalreport.utils.toRequestBody
@@ -30,6 +34,11 @@ class HomeRepositoryImpl(private val homeDataSource: HomeDataSource) : HomeRepos
         response.status?.let { onResult(it, response) }
     }
 
+    override suspend fun getPatientList(onResult: (Boolean, PatientResponse) -> Unit) {
+        val response = homeDataSource.getPatientList()
+        response.status.let { onResult(it, response) }
+    }
+
     override suspend fun createPatientProfile(
         params: PatientProfileRequest,
         onResult: (isSuccess: Boolean, baseResponse: PatientProfileResponse) -> Unit
@@ -41,11 +50,33 @@ class HomeRepositoryImpl(private val homeDataSource: HomeDataSource) : HomeRepos
         onResult(response.success, response)
     }
 
+    override suspend fun updatePatientProfile(
+        patientId: Int,
+        params: UpdatePatientProfileRequest,
+        onResult: (Boolean, PatientProfileResponse) -> Unit
+    ) {
+        val response = homeDataSource.updatePatientProfile(patientId, params)
+        response.success?.let { onResult(it, response) }
+    }
+
+    override suspend fun getPatientProfile(
+        param: Int,
+        onResult: (Boolean, ParticularPatientResponse) -> Unit
+    ) {
+        val response = homeDataSource.getPatientProfile(param)
+        onResult(response.status, response)
+    }
+
     override suspend fun logout(onResult: (Boolean, LogoutResponse) -> Unit) {
         val response = homeDataSource.logout()
         onResult(response.status, response)
     }
 
+
+    override suspend fun getDoctorsDetailList(onResult: (isSuccess: Boolean, baseResponse: DoctorsDetailResponse) -> Unit) {
+        val response = homeDataSource.getDoctorsDetailList()
+        response.success?.let { onResult(it, response) }
+    }
 
     private fun getDoctorProfileParam(params: DoctorProfileRequest): Map<String?, RequestBody> {
         val map: MutableMap<String?, RequestBody> = HashMap()

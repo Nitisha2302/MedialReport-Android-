@@ -100,7 +100,7 @@ interface ApiService {
     @GET("patient/report/list/{id}")
     suspend fun getParticularPatientReportList(@Path("id") id: Int): PatientReportListResponse
 
-    @GET("doctor/list")
+    @POST("doctor/listing")
     suspend fun getDoctorsList(): DoctorsDetailResponse
 
     @GET("patient/list/search")

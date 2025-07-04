@@ -11,5 +11,11 @@
     <color name="dark_red">#a20808</color>
     <color name="dark_green">#0F7986</color>
     <color name="gray_color">#C5C5C5</color>
+    <color name="darkgray">#93959A</color>
+    <color name="yellow_color">#F6C23E</color>
+    <color name="green_color">#1cc88a</color>
+    <color name="redColor">#ff0008</color>
+    <color name="blue_color">#4E73DF</color>
+
 
 </resources>
