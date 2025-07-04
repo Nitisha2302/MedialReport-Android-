@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.medicalreport.base.ParentViewModel
 import com.medicalreport.modal.request.DoctorProfileRequest
 import com.medicalreport.modal.request.PatientProfileRequest
+import com.medicalreport.modal.request.PatientReportRequest
 import com.medicalreport.modal.request.UpdatePatientProfileRequest
+import com.medicalreport.modal.response.DataItem
 import com.medicalreport.modal.response.PProfileData
 import com.medicalreport.modal.response.PatientData
 import com.medicalreport.modal.response.PatientProfileData
@@ -17,10 +19,12 @@ import kotlinx.coroutines.launch
 class PatientViewModel(private val homeRepository: HomeRepository) : ParentViewModel() {
     var patientProfileRequest = ObservableField(PatientProfileRequest())
     var updatePatientProfileRequest = ObservableField(UpdatePatientProfileRequest())
+    var updatePatientReportRequest = ObservableField(PatientReportRequest())
+
     var patientList = MutableLiveData<ArrayList<PatientData>?>()
     var particularPatientProfile = MutableLiveData<PProfileData?>()
     val patientProfile = MutableLiveData<PatientProfileData?>()
-
+    val patientReportList = MutableLiveData<ArrayList<DataItem>?>()
 
     fun newPatientProfile(
         gender: String,
@@ -134,4 +138,74 @@ class PatientViewModel(private val homeRepository: HomeRepository) : ParentViewM
 
         }
     }
+
+
+    fun getRecentReportList(
+        onResult: (isSuccess: Boolean) -> Unit
+    ) {
+        viewModelScope.launch {
+            showLoading.postValue(true)
+            homeRepository.getPatientReportList() { isSuccess, response ->
+                showLoading.postValue(false)
+                if (response.status == true) {
+                    onResult(true)
+                    patientReportList.postValue(response.data)
+
+                } else {
+                    errorToastMessage.postValue(response.message)
+                    onResult(false)
+                }
+            }
+
+        }
+    }
+
+    fun updatePatientReport(
+        patientId: Int,
+        pdfFile: String,
+        onResult: (isSuccess: Boolean) -> Unit
+    ) {
+        viewModelScope.launch {
+            showLoading.postValue(true)
+            updatePatientReportRequest.get()?.apply {
+                this.patientId = patientId
+                this.pdfFile = pdfFile
+            }?.let {
+                homeRepository.updatePatientReport(it) { isSuccess, response ->
+                    showLoading.postValue(false)
+                    if (response.success == true) {
+                        onResult(true)
+                        toastMessage.postValue(response.message)
+                    } else {
+                        errorToastMessage.postValue(response.message)
+                        onResult(false)
+                    }
+                }
+            }
+
+        }
+    }
+
+    fun getParticularPatientReportList(
+        id: Int,
+        onResult: (isSuccess: Boolean) -> Unit
+    ) {
+        viewModelScope.launch {
+            showLoading.postValue(true)
+            homeRepository.getParticularPatientReportList(id) { isSuccess, response ->
+                showLoading.postValue(false)
+                if (response.status == true) {
+                    onResult(true)
+                    toastMessage.postValue(response.message)
+                    response.data?.let { reportResponse ->
+                        patientReportList.postValue(reportResponse)
+                    }
+                } else {
+                    errorToastMessage.postValue(response.message)
+                    onResult(false)
+                }
+            }
+        }
+    }
+
 }

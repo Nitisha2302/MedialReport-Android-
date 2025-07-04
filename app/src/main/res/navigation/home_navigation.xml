@@ -65,6 +65,11 @@
         android:name="com.medicalreport.view.main.dialog.DoctorsListDialogFragment"
         android:label="DoctorsListDialogFragment"
         tools:layout="@layout/fragment_doctors_list_dialog" />
+    <fragment
+        android:id="@+id/nav_deviceCamera"
+        android:name="com.medicalreport.view.main.reports.DeviceCameraFragment"
+        android:label="DeviceCameraFragment"
+        tools:layout="@layout/fragment_device_camera"/>
 
 
 </navigation>

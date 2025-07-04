@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvReportImage"
+        android:layout_width="@dimen/_135sdp"
+        android:layout_height="@dimen/_135sdp"
+        android:layout_margin="@dimen/_3sdp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_7sdp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/ivReport"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:placeholderImage="@drawable/image_placeholder" />
+    </androidx.cardview.widget.CardView>
+</layout>

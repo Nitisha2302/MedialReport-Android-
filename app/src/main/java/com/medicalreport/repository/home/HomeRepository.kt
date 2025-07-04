@@ -2,12 +2,15 @@ package com.medicalreport.repository.home
 
 import com.medicalreport.modal.request.DoctorProfileRequest
 import com.medicalreport.modal.request.PatientProfileRequest
+import com.medicalreport.modal.request.PatientReportRequest
 import com.medicalreport.modal.request.UpdatePatientProfileRequest
 import com.medicalreport.modal.response.DocProfileResponse
 import com.medicalreport.modal.response.DoctorsDetailResponse
 import com.medicalreport.modal.response.LogoutResponse
 import com.medicalreport.modal.response.ParticularPatientResponse
 import com.medicalreport.modal.response.PatientProfileResponse
+import com.medicalreport.modal.response.PatientReportListResponse
+import com.medicalreport.modal.response.PatientReportResponse
 import com.medicalreport.modal.response.PatientResponse
 
 interface HomeRepository {
@@ -41,9 +44,24 @@ interface HomeRepository {
         onResult: (isSuccess: Boolean, baseResponse: ParticularPatientResponse) -> Unit
     )
 
+    suspend fun getPatientReportList(
+        onResult: (isSuccess: Boolean, baseResponse: PatientReportListResponse) -> Unit
+    )
+
     suspend fun getDoctorsDetailList(
         onResult: (isSuccess: Boolean, baseResponse: DoctorsDetailResponse) -> Unit
     )
+
+    suspend fun updatePatientReport(
+        params: PatientReportRequest,
+        onResult: (isSuccess: Boolean, baseResponse: PatientReportResponse) -> Unit
+    )
+
+    suspend fun getParticularPatientReportList(
+        params: Int,
+        onResult: (isSuccess: Boolean, baseResponse: PatientReportListResponse) -> Unit
+    )
+
     suspend fun logout(
         onResult: (isSuccess: Boolean, baseResponse: LogoutResponse) -> Unit
     )

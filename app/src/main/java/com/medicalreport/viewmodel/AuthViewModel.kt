@@ -54,7 +54,7 @@ class AuthViewModel(private val authRepository: AuthRepository) : ParentViewMode
                         onResult(true)
                         toastMessage.postValue(response.message)
                     } else {
-                        toastMessage.postValue(response.message)
+                        errorToastMessage.postValue(response.message)
                         onResult(false)
                     }
                 }

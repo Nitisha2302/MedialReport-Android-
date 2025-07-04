@@ -1,0 +1,44 @@
+apply plugin: 'com.android.library'
+group = 'com.github.jiangdongguo'
+
+android {
+    namespace = "com.jiangdg.libusbcamera"
+    compileSdkVersion 33
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 2
+        versionName "1.2.1.20200414"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // "armeabi-v7a" can adapter most of the devices
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    // solving com.android.tools.r8.CompilationFailedException: Compilation failed to complete
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation(project(":my-local-sdk"))
+    implementation 'androidx.test:monitor:1.7.1'
+    implementation 'androidx.test.ext:junit:1.2.1'
+
+//    implementation files('aars/common-4.1.1.aar')
+
+//    implementation(name:'common-4.1.1', ext:'aar')
+}

@@ -4,15 +4,20 @@ import android.text.TextUtils
 import com.medicalreport.datasource.home.HomeDataSource
 import com.medicalreport.modal.request.DoctorProfileRequest
 import com.medicalreport.modal.request.PatientProfileRequest
+import com.medicalreport.modal.request.PatientReportRequest
 import com.medicalreport.modal.request.UpdatePatientProfileRequest
 import com.medicalreport.modal.response.DocProfileResponse
 import com.medicalreport.modal.response.DoctorsDetailResponse
 import com.medicalreport.modal.response.LogoutResponse
 import com.medicalreport.modal.response.ParticularPatientResponse
 import com.medicalreport.modal.response.PatientProfileResponse
+import com.medicalreport.modal.response.PatientReportListResponse
+import com.medicalreport.modal.response.PatientReportResponse
 import com.medicalreport.modal.response.PatientResponse
 import com.medicalreport.utils.createPartFromString
 import com.medicalreport.utils.toImageRequestBody
+import com.medicalreport.utils.toIntRequestBody
+import com.medicalreport.utils.toPdfRequestBody
 import com.medicalreport.utils.toRequestBody
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -72,10 +77,46 @@ class HomeRepositoryImpl(private val homeDataSource: HomeDataSource) : HomeRepos
         onResult(response.status, response)
     }
 
+    override suspend fun getParticularPatientReportList(
+        params: Int,
+        onResult: (isSuccess: Boolean, baseResponse: PatientReportListResponse) -> Unit
+    ) {
+        val response = homeDataSource.getParticularPatientReportList(params)
+        response.status?.let { onResult(it, response) }
+
+    }
+    override suspend fun updatePatientReport(
+        params: PatientReportRequest,
+        onResult: (isSuccess: Boolean, baseResponse: PatientReportResponse) -> Unit
+    ) {
+        val response = homeDataSource.updatePatientReport(
+            getPatientReportParam(params),
+            getPatientReportFilePart(params)
+        )
+        response.success?.let { onResult(it, response) }
+    }
+
+    private fun getPatientReportParam(params: PatientReportRequest): Map<String?, RequestBody> {
+        val map: MutableMap<String?, RequestBody> = HashMap()
+        if (params.patientId != 0) {
+            map["patient_id"] = toIntRequestBody(params.patientId)
+        }
+        if (!params.pdfFile.isNullOrEmpty()) {
+            map["file"] = toRequestBody(params.pdfFile.toString())
+        }
+        return map
+    }
+
+
 
     override suspend fun getDoctorsDetailList(onResult: (isSuccess: Boolean, baseResponse: DoctorsDetailResponse) -> Unit) {
         val response = homeDataSource.getDoctorsDetailList()
         response.success?.let { onResult(it, response) }
+    }
+
+    override suspend fun getPatientReportList(onResult: (Boolean, PatientReportListResponse) -> Unit) {
+        val response = homeDataSource.getPatientReportList()
+        response.status?.let { onResult(it, response) }
     }
 
     private fun getDoctorProfileParam(params: DoctorProfileRequest): Map<String?, RequestBody> {
@@ -184,4 +225,17 @@ class HomeRepositoryImpl(private val homeDataSource: HomeDataSource) : HomeRepos
             null
         }
     }
+
+    private fun getPatientReportFilePart(params: PatientReportRequest): MultipartBody.Part? {
+        return if (!TextUtils.isEmpty(params.pdfFile)) {
+            val file = params.pdfFile?.let { File(it) }
+            val imageBody = file?.let { toPdfRequestBody(it) }
+            imageBody?.let { MultipartBody.Part.createFormData("file", file.name, it) }
+        } else {
+            null
+        }
+    }
+
+
+
 }

@@ -93,12 +93,12 @@ class HomeDataSourceImpl(
     }
 
     override suspend fun updatePatientReport(
-        patientId: Int,
-        params: PatientReportRequest
+        params: Map<String?, RequestBody>,
+        imagePart: MultipartBody.Part?
     ): PatientReportResponse {
         var baseResponse = PatientReportResponse()
         try {
-            baseResponse = api.updatePatientReport(patientId, params)
+            baseResponse = api.updatePatientReport(params, imagePart)
             baseResponse.success = true
         } catch (e: Exception) {
             baseResponse.success = false
@@ -180,9 +180,9 @@ class HomeDataSourceImpl(
         var baseResponse = PatientReportListResponse()
         try {
             baseResponse = api.getReportList()
-            baseResponse.success = true
+            baseResponse.status = true
         } catch (e: Exception) {
-            baseResponse.success = false
+            baseResponse.status = false
             baseResponse.message = ApiService.getErrorMessageFromGenericResponse(e, resources)
         } finally {
             return baseResponse
@@ -193,9 +193,9 @@ class HomeDataSourceImpl(
         var baseResponse = PatientReportListResponse()
         try {
             baseResponse = api.getParticularPatientReportList(param)
-            baseResponse.success = true
+            baseResponse.status = true
         } catch (e: Exception) {
-            baseResponse.success = false
+            baseResponse.status = false
             baseResponse.message = ApiService.getErrorMessageFromGenericResponse(e, resources)
         } finally {
             return baseResponse
@@ -220,10 +220,10 @@ class HomeDataSourceImpl(
         try {
             baseResponse = api.getSearchedData(param)
             baseResponse.success = true
-        }catch (e:Exception){
+        } catch (e: Exception) {
             baseResponse.success = false
-            baseResponse.message = ApiService.getErrorMessageFromGenericResponse(e,resources)
-        }finally {
+            baseResponse.message = ApiService.getErrorMessageFromGenericResponse(e, resources)
+        } finally {
             return baseResponse
         }
     }

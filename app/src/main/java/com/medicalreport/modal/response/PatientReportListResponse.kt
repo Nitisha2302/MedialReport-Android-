@@ -7,8 +7,8 @@ data class PatientReportListResponse(
 	@field:SerializedName("data")
 	val data: ArrayList<DataItem>? = null,
 
-	@field:SerializedName("success")
-	var success: Boolean? = null,
+	@field:SerializedName("status")
+	var status: Boolean? = null,
 
 	@field:SerializedName("message")
 	var message: String? = null

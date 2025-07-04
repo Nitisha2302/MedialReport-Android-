@@ -16,6 +16,8 @@
     <color name="green_color">#1cc88a</color>
     <color name="redColor">#ff0008</color>
     <color name="blue_color">#4E73DF</color>
-
+    <color name="transparent">#00ffffff</color>
+    <color name="placeholderAColor">#babec1</color>
+    <color name="placeholderBColor">#e9eef1</color>
 
 </resources>

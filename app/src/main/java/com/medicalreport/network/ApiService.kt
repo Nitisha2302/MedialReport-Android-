@@ -42,7 +42,7 @@ interface ApiService {
     @POST("login")
     suspend fun getLogin(@Body request: LoginRequest): LoginResponse
 
-    @POST("password/email")
+    @POST("forgot-password")
     suspend fun getPasswordReset(@Body request: ForgotPasswordRequest): ForgotPasswordResponse
 
     @GET("doctor/profile")
@@ -85,19 +85,20 @@ interface ApiService {
         @Body request: UpdatePatientProfileRequest
     ): PatientProfileResponse
 
-    @POST("patient/report/{id}")
+    @Multipart
+    @POST("report/create")
     suspend fun updatePatientReport(
-        @Path("id") id: Int,
-        @Body request: PatientReportRequest
+        @PartMap params: Map<String?, RequestBody>,
+        @Part file: MultipartBody.Part?
     ): PatientReportResponse
 
     @GET("notifications")
     suspend fun getNotifications(): NotificationsResponse
 
-    @GET("patient/report/list")
+    @GET("report/list")
     suspend fun getReportList(): PatientReportListResponse
 
-    @GET("patient/report/list/{id}")
+    @GET("report/list/{id}")
     suspend fun getParticularPatientReportList(@Path("id") id: Int): PatientReportListResponse
 
     @POST("doctor/listing")

@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.medicalreport"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.medicalreport"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -26,9 +26,9 @@ android {
             )
         }
     }
-    kotlinOptions {
+   /* kotlinOptions {
         jvmTarget = "17"
-    }
+    }*/
     dataBinding {
         enable = true
     }
@@ -37,9 +37,17 @@ android {
         buildConfig = true
     }
 
-    compileOptions {
+    /*compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }*/
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
     }
 }
 
@@ -92,5 +100,31 @@ dependencies {
         implementation("androidx.work:work-runtime-ktx:2.7.0")
     }
 
+    //lifecycle
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-livedata:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.7.0")
+
+    //Image Loader
+    implementation("com.nostra13.universalimageloader:universal-image-loader:1.9.5")
+
+    //image picker
+    implementation("com.github.dhaval2404:imagepicker:2.1")
+
+    //Pdf Editor
+    implementation("io.github.afreakyelf:Pdf-Viewer:2.1.1")
+    implementation("com.itextpdf:itextpdf:5.5.13.3")
+
+    //Camera Preview
+    implementation("androidx.camera:camera-camera2:1.0.0")
+    implementation("androidx.camera:camera-lifecycle:1.0.0")
+    implementation("androidx.camera:camera-view:1.0.0-alpha27")
+
+    //Signature Pad
+    implementation("com.github.gcacace:signature-pad:1.3.1")
+
+    //Usb Camera library
+    implementation(project(":libusbcamera"))
+    implementation(project(":my-local-sdk"))
 
 }

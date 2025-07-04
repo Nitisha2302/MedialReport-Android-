@@ -7,7 +7,7 @@ data class PatientReportResponse(
 	@field:SerializedName("data")
 	val data: PatientReportData? = null,
 
-	@field:SerializedName("success")
+	@field:SerializedName("status")
     var success: Boolean? = null,
 
 	@field:SerializedName("message")
