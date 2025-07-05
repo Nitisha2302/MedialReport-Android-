@@ -70,4 +70,7 @@ class SignatureDialogFragment : DialogFragment() {
         fun onClickSave(image: Bitmap)
     }
 
+    override fun getTheme(): Int {
+        return R.style.DialogTheme
+    }
 }

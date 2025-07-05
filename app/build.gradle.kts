@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.medicalreport"
-    compileSdk = 36
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.medicalreport"
-        minSdk = 24
-        targetSdk = 36
+        minSdk = 21
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -26,9 +26,9 @@ android {
             )
         }
     }
-   /* kotlinOptions {
+    kotlinOptions {
         jvmTarget = "17"
-    }*/
+    }
     dataBinding {
         enable = true
     }
@@ -37,18 +37,11 @@ android {
         buildConfig = true
     }
 
-    /*compileOptions {
+    compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }*/
+    }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
 }
 
 dependencies {
@@ -110,6 +103,8 @@ dependencies {
 
     //image picker
     implementation("com.github.dhaval2404:imagepicker:2.1")
+//    implementation("com.github.dhaval2404:imagepicker-support:1.7.1")
+
 
     //Pdf Editor
     implementation("io.github.afreakyelf:Pdf-Viewer:2.1.1")
@@ -123,8 +118,12 @@ dependencies {
     //Signature Pad
     implementation("com.github.gcacace:signature-pad:1.3.1")
 
+
     //Usb Camera library
     implementation(project(":libusbcamera"))
     implementation(project(":my-local-sdk"))
+
+    //Custom activity when the app crashes
+    implementation("cat.ereza:customactivityoncrash:2.3.0")
 
 }

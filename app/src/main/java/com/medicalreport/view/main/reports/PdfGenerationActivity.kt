@@ -228,7 +228,7 @@ class PdfGenerationActivity : AppCompatActivity(), SignatureDialogFragment.Click
         document.finishPage(page)
         val currentTime = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
         downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-            .toString() + "/" + "USBCamera/"
+            .toString() + "/" + "SIMS/"
         // Make sure the folder exists
         val folder = File(downloadsDir)
         if (!folder.exists()) {

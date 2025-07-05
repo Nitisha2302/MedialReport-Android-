@@ -39,7 +39,7 @@ class AllPatientsFragment : BaseFragment<FragmentAllPatientsBinding>(),
         mBinding = binding
         downloadsDir =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-                .toString() + "/" + "USBCamera/"
+                .toString() + "/" + "SIMS/"
         try {
             fromWhere = arguments?.getString("fromWhere").toString()
 

@@ -23,6 +23,8 @@
 
 package com.serenegiant.usb;
 
+import static android.content.Context.RECEIVER_EXPORTED;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
@@ -192,7 +194,11 @@ public final class USBMonitor {
                 // ACTION_USB_DEVICE_ATTACHED never comes on some devices so it should not be added here
                 filter.addAction(ACTION_USB_DEVICE_ATTACHED);
                 filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
-                context.registerReceiver(mUsbReceiver, filter);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    context.registerReceiver(mUsbReceiver, filter, RECEIVER_EXPORTED);
+                } else {
+                    context.registerReceiver(mUsbReceiver, filter);
+                }
             }
             // start connection check
             mDeviceCounts = 0;
@@ -329,7 +335,7 @@ public final class USBMonitor {
         final HashMap<String, UsbDevice> deviceList = mUsbManager.getDeviceList();
         final List<UsbDevice> result = new ArrayList<UsbDevice>();
         if (deviceList != null) {
-            if (filters == null|| filters.isEmpty()) {
+            if (filters == null || filters.isEmpty()) {
                 result.addAll(deviceList.values());
             } else {
                 final Iterator<UsbDevice> iterator = deviceList.values().iterator();
@@ -1496,10 +1502,10 @@ public final class USBMonitor {
 
 //		@Override
 //		protected void finalize() throws Throwable {
-///			close();
+
+        ///            close();
 //			super.finalize();
 //		}
-
         private synchronized void checkConnection() throws IllegalStateException {
             if (mConnection == null) {
                 throw new IllegalStateException("already closed");

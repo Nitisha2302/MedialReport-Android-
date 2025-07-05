@@ -20,6 +20,7 @@ import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentActivity
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.generic.RoundingParams
 import com.facebook.drawee.interfaces.DraweeController
 import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.request.ImageRequestBuilder
@@ -330,4 +331,39 @@ fun frescoImageLoad(
 
 
     return controller
+}
+
+fun getCircleImageFromFresco(view: SimpleDraweeView, imageUrl: String?, gender: String) {
+    if (!imageUrl.isNullOrEmpty() || imageUrl == "imageUrl" || imageUrl == null) {
+        var imageRequest: com.facebook.imagepipeline.request.ImageRequest? = null
+        imageRequest = if (imageUrl == "imageUrl" || imageUrl == null) {
+            if (gender == "Male" || gender == "male") {
+                ImageRequestBuilder
+                    .newBuilderWithResourceId(R.drawable.dummy_doctor_avatar)
+                    .setProgressiveRenderingEnabled(true)
+                    .build()
+            }else{
+                ImageRequestBuilder
+                    .newBuilderWithResourceId(R.drawable.dummy_female_doctor_avatar)
+                    .setProgressiveRenderingEnabled(true)
+                    .build()
+            }
+        } else {
+            ImageRequestBuilder
+                .newBuilderWithSource(Uri.parse(imageUrl))
+                .setProgressiveRenderingEnabled(true)
+                .build()
+        }
+
+        view.controller = Fresco.newDraweeControllerBuilder()
+            .setImageRequest(imageRequest)
+            .setAutoPlayAnimations(false)
+            .build()
+
+        val roundingParameter = RoundingParams()
+        roundingParameter.roundAsCircle = true
+        view.hierarchy.roundingParams = roundingParameter
+
+
+    }
 }

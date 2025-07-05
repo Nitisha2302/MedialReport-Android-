@@ -31,7 +31,7 @@ public class DevicesBottomSheetDialog extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-       /* tvDeviceName = view.findViewById(R.id.tvDeviceName);
+        tvDeviceName = view.findViewById(R.id.tvDeviceName);
         tvDeviceName.setText(deviceName);
         //*Device Click
         view.findViewById(R.id.ivDeviceName).setOnClickListener(new View.OnClickListener() {
@@ -58,7 +58,7 @@ public class DevicesBottomSheetDialog extends BottomSheetDialogFragment {
                 onDeviceBottomItemClickListener.onDeviceCancelBottomSheet();
                 DevicesBottomSheetDialog.this.dismiss();
             }
-        });*/
+        });
     }
 
     public void setDeviceName(String deviceName) {

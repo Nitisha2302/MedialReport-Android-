@@ -27,7 +27,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //*Gallery Click
-       /* view.findViewById(R.id.ivGallery).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.ivGallery).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBottomItemClickListener.onGalleryClick();
@@ -51,7 +51,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                 onBottomItemClickListener.onCancelBottomSheet();
                 BottomSheetDialog.this.dismiss();
             }
-        });*/
+        });
     }
 
     public void setActionListener(OnBottomItemClickListener onBottomItemClickListener) {

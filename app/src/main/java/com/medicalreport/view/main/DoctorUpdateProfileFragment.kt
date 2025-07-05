@@ -1,30 +1,47 @@
 package com.medicalreport.view.main
 
-import android.os.Bundle
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.hardware.usb.UsbDevice
+import android.hardware.usb.UsbManager
+import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.Settings
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.navigation.fragment.findNavController
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.github.dhaval2404.imagepicker.ImagePicker
+import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.medicalreport.R
 import com.medicalreport.base.BaseFragment
+import com.medicalreport.bottomSheet.BottomSheetDialog
+import com.medicalreport.bottomSheet.DevicesBottomSheetDialog
 import com.medicalreport.databinding.FragmentDoctorUpdateProfileBinding
 import com.medicalreport.utils.EdTextWatcher
 import com.medicalreport.utils.Prefs
 import com.medicalreport.utils.Util.checkIfHasNetwork
-import com.medicalreport.utils.Util.isValidEmailId
 import com.medicalreport.utils.disableMultiTap
-import com.medicalreport.viewmodel.AuthViewModel
+import com.medicalreport.utils.getCircleImageFromFresco
 import com.medicalreport.viewmodel.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.getValue
-import kotlin.toString
+import java.io.File
 
-class DoctorUpdateProfileFragment : BaseFragment<FragmentDoctorUpdateProfileBinding>() {
+class DoctorUpdateProfileFragment : BaseFragment<FragmentDoctorUpdateProfileBinding>(),
+    BottomSheetDialog.OnBottomItemClickListener,
+    DevicesBottomSheetDialog.OnDeviceBottomItemClickListener{
     private val viewModel by viewModel<HomeViewModel>()
     private lateinit var mBinding: FragmentDoctorUpdateProfileBinding
+    private val bottomSheetDialog = BottomSheetDialog()
+    private val deviceBottomSheetDialog = DevicesBottomSheetDialog()
     private var gender: String? = null
     private var fullName: String = ""
     private var address: String = ""
@@ -35,6 +52,31 @@ class DoctorUpdateProfileFragment : BaseFragment<FragmentDoctorUpdateProfileBind
     private var hospitalName: String = ""
     private var hospitalAddress: String = ""
     private var hospitalPhoneNumber: String = ""
+    private var profileImage = ""
+
+    private val requiredPermissions = mutableListOf(
+        Manifest.permission.CAMERA
+    ).apply {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            add(Manifest.permission.READ_MEDIA_IMAGES)
+        } else {
+            add(Manifest.permission.READ_EXTERNAL_STORAGE)
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+        }
+    }
+
+    private val permissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        val denied = permissions.filterValues { !it }.keys
+        if (denied.isEmpty() && isAllFilesAccessGranted()) {
+            Toast.makeText(activity, "All permissions granted", Toast.LENGTH_SHORT).show()
+        } else {
+            handleDeniedPermissions(denied)
+        }
+    }
 
     override val fragmentLayoutId: Int
         get() = R.layout.fragment_doctor_update_profile
@@ -157,6 +199,10 @@ class DoctorUpdateProfileFragment : BaseFragment<FragmentDoctorUpdateProfileBind
     }
 
     private fun initListener() {
+        mBinding.ivUserImage.setOnClickListener {
+            checkAndRequestPermissions()
+
+        }
         mBinding.btnUpdate.setOnClickListener {
             it.disableMultiTap()
             if (checkIfHasNetwork()) {
@@ -180,6 +226,94 @@ class DoctorUpdateProfileFragment : BaseFragment<FragmentDoctorUpdateProfileBind
         }
     }
 
+    private fun checkAndRequestPermissions() {
+        if (!hasAllPermissions()) {
+            permissionLauncher.launch(requiredPermissions.toTypedArray())
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !isAllFilesAccessGranted()) {
+            showManageFilesDialog()
+        } else {
+            val usbManager = context?.getSystemService(Context.USB_SERVICE) as UsbManager
+            val deviceList: HashMap<String, UsbDevice> = usbManager.deviceList
+            showDevicesDialog(deviceList.values)
+        }
+    }
+
+    private fun showDevicesDialog(deviceList: MutableCollection<UsbDevice>) {
+        if (deviceList.isNullOrEmpty()) {
+            Toast.makeText(context, "No USB devices found", Toast.LENGTH_SHORT).show()
+            bottomSheetDialog.setActionListener(this@DoctorUpdateProfileFragment)
+            bottomSheetDialog.show(childFragmentManager, this::class.java.simpleName)
+        } else {
+            var deviceName = ""
+            deviceList.forEach {
+                deviceName = it.deviceName
+            }
+            deviceBottomSheetDialog.setDeviceName(deviceName)
+            deviceBottomSheetDialog.setDeviceActionListener(this)
+            deviceBottomSheetDialog.show(childFragmentManager, this::class.java.simpleName)
+        }
+    }
+
+    private fun hasAllPermissions(): Boolean {
+        return requiredPermissions.all {
+            ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    private fun isAllFilesAccessGranted(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Environment.isExternalStorageManager()
+        } else true
+    }
+
+    private fun requestAllFilesPermission() {
+        val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+        intent.data = Uri.parse("package:${context?.packageName}")
+        startActivity(intent)
+    }
+
+    private fun showManageFilesDialog() {
+        AlertDialog.Builder(requireContext(),R.style.CustomAlertDialog)
+            .setTitle("Allow All Files Access")
+            .setMessage("This app needs permission to access all files.")
+            .setCancelable(false)
+            .setPositiveButton("Grant") { _, _ -> requestAllFilesPermission() }
+            .setNegativeButton("Cancel") { _, _ ->
+                Toast.makeText(context, "Permission required", Toast.LENGTH_SHORT).show()
+                showManageFilesDialog()
+            }
+            .show()
+    }
+
+    private fun showAppSettingsDialog() {
+        AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+            .setTitle("Permission Required")
+            .setMessage("Please enable permissions in App Settings to continue.")
+            .setCancelable(false)
+            .setPositiveButton("Open Settings") { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse("package:${context?.packageName}")
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel") { _, _ ->
+                Toast.makeText(context, "Permission required", Toast.LENGTH_SHORT).show()
+                showAppSettingsDialog()
+            }
+            .show()
+    }
+
+    private fun handleDeniedPermissions(deniedPermissions: Set<String>) {
+        val permanentlyDenied = deniedPermissions.any {
+            !ActivityCompat.shouldShowRequestPermissionRationale(activity, it)
+        }
+
+        if (permanentlyDenied) {
+            showAppSettingsDialog()
+        } else {
+            Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
+            checkAndRequestPermissions()
+        }
+    }
     private fun initGetDoctorProfile() {
         if (checkIfHasNetwork()) {
             viewModel.getDocProfile() {
@@ -247,7 +381,68 @@ class DoctorUpdateProfileFragment : BaseFragment<FragmentDoctorUpdateProfileBind
                 mBinding.etBio.setText(it.bio)
             }
 
+            getCircleImageFromFresco(mBinding.ivUserImage, it?.image, it?.gender.toString())
+
         }
+    }
+
+    override fun onCameraClick() {
+        activity?.let { ImagePicker.with(it) }
+            ?.cameraOnly()?.compress(1024)?.cropSquare()?.createIntent { intent ->
+            startForProfileImageResult.launch(intent)
+        }
+    }
+
+    override fun onGalleryClick() {
+        activity?.let { ImagePicker.with(it) }
+            ?.galleryOnly()?.compress(1024)?.cropSquare()?.createIntent { intent ->
+            startForProfileImageResult.launch(intent)
+        }
+    }
+
+    override fun onCancelBottomSheet() {
+        bottomSheetDialog.dismiss()
+
+    }
+
+    private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+
+            if (resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+                val fileUri = data.data
+                fileUri?.let {
+                    mBinding.ivUserImage.setImageURI(it)
+
+                    val filePath = FileUriUtils.getRealPath(requireContext(), it)
+                    filePath?.let { path ->
+                        viewModel.doctorUpdateRequest.get()?.image = File(path).absolutePath
+                        profileImage = File(path).absolutePath
+                    } ?: run {
+                        Toast.makeText(requireContext(), "Unable to get file path", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else {
+                Toast.makeText(requireContext(), "Image selection failed (code: $resultCode)", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+    override fun onDeviceClick() {
+
+    }
+
+    override fun onDeviceCameraClick() {
+        activity?.let { ImagePicker.with(it) }
+            ?.cameraOnly()?.compress(1024)?.cropSquare()?.createIntent { intent ->
+            startForProfileImageResult.launch(intent)
+        }
+    }
+
+    override fun onDeviceCancelBottomSheet() {
+        deviceBottomSheetDialog.dismiss()
+
     }
 
 
