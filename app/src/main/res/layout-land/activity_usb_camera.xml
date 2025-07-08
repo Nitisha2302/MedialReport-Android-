@@ -6,7 +6,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
         tools:ignore="MergeRootFrame">
 
         <androidx.appcompat.widget.Toolbar
@@ -46,9 +45,34 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <FrameLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/photoSlideOptions"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="@color/app_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/photosRecyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                tools:listitem="@layout/photo_upload_item_view"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_camera_rounded"
+            app:layout_constraintEnd_toStartOf="@+id/llIcons"
+            app:layout_constraintStart_toEndOf="@+id/photoSlideOptions"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintBottom_toBottomOf="parent">
 
@@ -65,26 +89,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
-                    android:id="@+id/photoSlideOptions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_12sdp"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/photosRecyclerview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-
-                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -108,7 +113,7 @@
                 android:contentDescription="@string/txt_brightness"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_brightness"
-                app:tint="@color/gray_color" />
+                app:tint="@color/app_color" />
 
             <ImageButton
                 android:id="@+id/ivVideo"
@@ -120,7 +125,7 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_video"
                 android:visibility="gone"
-                app:tint="@color/gray_color" />
+                app:tint="@color/app_color" />
 
             <ImageButton
                 android:id="@+id/ivCamera"
@@ -131,7 +136,7 @@
                 android:contentDescription="@string/txt_capture_image"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_photo_camera"
-                app:tint="@color/gray_color" />
+                app:tint="@color/app_color" />
 
 
             <ImageButton
@@ -143,7 +148,7 @@
                 android:contentDescription="@string/txt_setting"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_settings"
-                app:tint="@color/gray_color" />
+                app:tint="@color/app_color" />
 
             <ImageButton
                 android:id="@+id/ivContrast"
@@ -154,7 +159,7 @@
                 android:contentDescription="@string/txt_contrast"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_contrast"
-                app:tint="@color/gray_color" />
+                app:tint="@color/app_color" />
 
             <ImageButton
                 android:id="@+id/ivWhiteBalance"
@@ -165,7 +170,7 @@
                 android:contentDescription="@string/txt_video_recording"
                 android:scaleType="fitCenter"
                 android:src="@drawable/white_balance_icon"
-                app:tint="@color/gray_color" />
+                app:tint="@color/app_color" />
 
         </LinearLayout>
 

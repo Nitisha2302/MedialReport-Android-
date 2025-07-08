@@ -110,6 +110,7 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/txt_video_recording"
                 android:scaleType="fitCenter"
+                android:visibility="gone"
                 android:src="@drawable/ic_video"
                 app:tint="@color/app_color" />
 

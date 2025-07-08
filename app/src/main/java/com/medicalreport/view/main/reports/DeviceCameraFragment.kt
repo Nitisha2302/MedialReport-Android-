@@ -126,9 +126,6 @@ class DeviceCameraFragment : Fragment() {
     }
 
     private fun setupPhotoSlideAdapter() {
-        val layoutManager = LinearLayoutManager(context)
-        layoutManager.orientation = RecyclerView.VERTICAL
-        mBinding.photosRecyclerview.setLayoutManager(layoutManager)
         try {
             val itemDecor =
                 ItemTouchHelper((object : ItemTouchHelper.SimpleCallback(uploadPhotoPath.size, 0) {
