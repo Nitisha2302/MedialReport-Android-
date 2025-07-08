@@ -203,6 +203,19 @@ class NewPatientFragment : BaseFragment<FragmentNewPatientBinding>(),
             )
             findNavController().navigate(R.id.nav_deviceCamera, bundle)
         } else {
+            var deviceName = ""
+            var productId = 0
+            var vendorId = 0
+            var deviceClass = 0
+            var deviceSubclass = 0
+            deviceList.forEach {
+                deviceName = it.deviceName
+                productId = it.productId
+                vendorId = it.vendorId
+                deviceClass = it.deviceClass
+                deviceSubclass = it.deviceSubclass
+            }
+            Toast.makeText(context, "Device Attached,${productId},${vendorId},${deviceClass},${deviceSubclass}", Toast.LENGTH_SHORT).show()
             startMainActivity(selectedDoctors)
         }
     }

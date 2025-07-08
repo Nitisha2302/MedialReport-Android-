@@ -62,7 +62,7 @@
                 android:layout_height="0dp"
                 android:layout_marginVertical="@dimen/_12sdp"
                 android:scrollbars="none"
-                app:layout_constraintBottom_toTopOf="@+id/btnCreateProfile"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle">
@@ -382,23 +382,25 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnCreateProfile"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/gradient_button_bg"
+                        android:fontFamily="@font/helvetica_bold"
+                        android:text="@string/txt_update_profile"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_13sdp"
+                        android:layout_marginTop="@dimen/_18sdp"
+                        android:textStyle="bold"
+                        app:layout_constraintTop_toBottomOf="@+id/tlBGroup"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnCreateProfile"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/gradient_button_bg"
-                android:fontFamily="@font/helvetica_bold"
-                android:text="@string/txt_update_profile"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_13sdp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

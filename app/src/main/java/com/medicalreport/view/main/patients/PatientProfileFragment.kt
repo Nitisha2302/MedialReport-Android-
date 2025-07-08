@@ -210,6 +210,7 @@ class PatientProfileFragment : BaseFragment<FragmentPatientProfileBinding>(),
             )
             findNavController().navigate(R.id.nav_deviceCamera, bundle)
         } else {
+            Toast.makeText(context, "Device Attached ${deviceList}", Toast.LENGTH_SHORT).show()
             startMainActivity(selectedDoctors)
         }
     }

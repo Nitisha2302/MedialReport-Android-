@@ -234,6 +234,7 @@ class DoctorUpdateProfileFragment : BaseFragment<FragmentDoctorUpdateProfileBind
         } else {
             val usbManager = context?.getSystemService(Context.USB_SERVICE) as UsbManager
             val deviceList: HashMap<String, UsbDevice> = usbManager.deviceList
+            Toast.makeText(context, "Device Attached ${deviceList}", Toast.LENGTH_SHORT).show()
             showDevicesDialog(deviceList.values)
         }
     }

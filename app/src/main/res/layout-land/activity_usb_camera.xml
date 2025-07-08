@@ -119,6 +119,7 @@
                 android:contentDescription="@string/txt_video_recording"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_video"
+                android:visibility="gone"
                 app:tint="@color/gray_color" />
 
             <ImageButton
