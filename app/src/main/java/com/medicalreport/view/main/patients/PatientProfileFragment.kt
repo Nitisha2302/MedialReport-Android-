@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.navigation.fragment.findNavController
 import com.medicalreport.R
 import com.medicalreport.base.BaseFragment
@@ -28,6 +29,7 @@ import com.medicalreport.view.main.reports.PdfViewActivity
 import com.medicalreport.view.main.usb.UsbCameraActivity
 import com.medicalreport.viewmodel.PatientViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
 import kotlin.getValue
 
 
@@ -78,42 +80,35 @@ class PatientProfileFragment : BaseFragment<FragmentPatientProfileBinding>(),
                 gender = it1?.gender.toString()
                 age = it1?.age.toString()
 
-                mBinding.tvName.setText(it1?.name)
-                mBinding.tvEmail.setText(it1?.email)
-                mBinding.tvAddress.setText(it1?.address)
-                mBinding.tvAge.setText(it1?.age)
-                mBinding.tvPhone.setText(it1?.phone)
-                mBinding.tvGender.setText(it1?.gender)
-
-                if (it1?.report.isNullOrEmpty()) {
-                    mBinding.tvContent.visibility = View.GONE
-                    mBinding.rvReportImagesData.visibility = View.GONE
-                    mBinding.llPatientReports.visibility = View.GONE
-                    mBinding.rvReportFileData.visibility = View.GONE
-                    mBinding.tvNoDataFound.visibility = View.VISIBLE
-                } else {
-                    mBinding.tvContent.visibility = View.GONE
-                    mBinding.rvReportImagesData.visibility = View.GONE
-                    mBinding.tvNoDataFound.visibility = View.GONE
-                    mBinding.llPatientReports.visibility = View.VISIBLE
-                    mBinding.rvReportFileData.visibility = View.VISIBLE
-                    it1?.report?.forEach {
-                        setReportImageAdapter()
-                        it.docImage?.let { it2 -> reportHistoryAdapter.setNewItems(it2) }
-                        mBinding.tvContent.setText(it.content)
-                    }
-                }
-
+                mBinding.tvName.text = it1?.name
+                mBinding.tvAddress.text = it1?.address
+                mBinding.tvAge.text = it1?.age
+                mBinding.tvPhone.text = it1?.phone
+                mBinding.tvGender.text = it1?.gender
 
             }
         }
 
         viewModel.patientReportList.observe(viewLifecycleOwner) {
-            setParticularPatientAdapter()
-            it?.let { it1 ->
-                particularPatientReportAdapter.setNewItems(it1)
-            }
+            if (it?.isEmpty() == true) {
+                mBinding.tvContent.visibility = View.GONE
+                mBinding.rvReportImagesData.visibility = View.GONE
+                mBinding.llPatientReports.visibility = View.GONE
+                mBinding.rvReportFileData.visibility = View.GONE
+                mBinding.tvNoDataFound.visibility = View.VISIBLE
+            } else {
+                mBinding.tvContent.visibility = View.GONE
+                mBinding.rvReportImagesData.visibility = View.GONE
+                mBinding.tvNoDataFound.visibility = View.GONE
+                mBinding.llPatientReports.visibility = View.VISIBLE
+                mBinding.rvReportFileData.visibility = View.VISIBLE
+                setParticularPatientAdapter()
+                it?.let { it1 ->
+                    particularPatientReportAdapter.setNewItems(it1)
+                }
 
+
+            }
 
         }
     }
@@ -135,39 +130,27 @@ class PatientProfileFragment : BaseFragment<FragmentPatientProfileBinding>(),
     override fun setUpUi(binding: FragmentPatientProfileBinding) {
         mBinding = binding
         getBundledData()
-        requestDataCalls()
         initListener()
     }
 
-    private fun requestDataCalls() {
-        if (Util.checkIfHasNetwork()) {
-            callApis()
-        } else {
-            showNoInternetAlert()
-        }
-    }
-
-    private fun callApis() {
-        if (Util.checkIfHasNetwork()) {
-            patientId?.let {
-                viewModel.getParticularPatientProfile(it) {
-
-                }
-            }
-        } else {
-            showNoInternetAlert()
-        }
-    }
 
     private fun getBundledData() {
         patientId = arguments?.getInt("patientid")
         patientId?.let {
             Prefs.init().patientId = it
         }
-        patientId?.let {
-            viewModel.getParticularPatientReportList(it) {
+        if (Util.checkIfHasNetwork()) {
+            patientId?.let { patientId ->
+                viewModel.getParticularPatientProfile(patientId) {
+                    if (it) {
+                        viewModel.getParticularPatientReportList(patientId) {
 
+                        }
+                    }
+                }
             }
+        } else {
+            showNoInternetAlert()
         }
     }
 
@@ -210,7 +193,6 @@ class PatientProfileFragment : BaseFragment<FragmentPatientProfileBinding>(),
             )
             findNavController().navigate(R.id.nav_deviceCamera, bundle)
         } else {
-            Toast.makeText(context, "Device Attached ${deviceList}", Toast.LENGTH_SHORT).show()
             startMainActivity(selectedDoctors)
         }
     }
@@ -238,14 +220,48 @@ class PatientProfileFragment : BaseFragment<FragmentPatientProfileBinding>(),
         startActivity(intent)
     }
 
-    override fun onClickShare(path: String) {
-        /* val bottomSheetDialog = ShareReportBottomSheetDialog()
-         val bundle = Bundle()
-         bundle.putString("pdfPath", path)
-         bottomSheetDialog.arguments = bundle
-         bottomSheetDialog.show(this.childFragmentManager, "ShareReportBottomSheetDialog")*/
+    override fun onClickShare(url: String) {
+        val fileName = url.substringAfterLast("/")
+        val file = File(requireContext().cacheDir, fileName)
+
+        if (file.exists()) {
+            sharePdfFile(file)
+            return
+        }
+        Thread {
+            try {
+                val input = java.net.URL(url).openStream()
+                file.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+
+                requireActivity().runOnUiThread {
+                    sharePdfFile(file)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                requireActivity().runOnUiThread {
+                    Toast.makeText(requireContext(), "Download failed", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }.start()
     }
 
+    private fun sharePdfFile(file: File) {
+        val uri = FileProvider.getUriForFile(
+            requireContext(),
+            "${requireContext().packageName}.provider",
+            file
+        )
+
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "application/pdf"
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+
+        startActivity(Intent.createChooser(intent, "Share PDF using"))
+    }
     companion object {
         const val DIALOG_DOCTORS_SUCCESS = 1
     }

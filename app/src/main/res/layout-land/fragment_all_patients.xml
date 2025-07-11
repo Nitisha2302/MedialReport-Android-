@@ -87,7 +87,7 @@
             android:layout_height="0dp"
             android:layout_marginVertical="@dimen/_5sdp"
             android:scrollbars="none"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/paginationLayout"
             app:layout_constraintEnd_toEndOf="@id/glVerticalEnd"
             app:layout_constraintStart_toStartOf="@id/glVerticalStart"
             app:layout_constraintTop_toBottomOf="@+id/clSearch">
@@ -249,5 +249,47 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/paginationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/btnPrevious"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Previous"
+                android:paddingHorizontal="@dimen/_4sdp"
+                android:textColor="?android:attr/textColor"
+                android:fontFamily="@font/helvetica_bold"
+                android:textSize="@dimen/_12ssp"/>
+
+            <TextView
+                android:id="@+id/tvPageIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:paddingHorizontal="@dimen/_4sdp"
+                android:textColor="?android:attr/textColor"
+                android:fontFamily="@font/helvetica_bold"
+                android:textSize="@dimen/_12ssp"/>
+
+            <TextView
+                android:id="@+id/btnNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:paddingHorizontal="@dimen/_4sdp"
+                android:textColor="?android:attr/textColor"
+                android:fontFamily="@font/helvetica_bold"
+                android:textSize="@dimen/_12ssp"/>
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -26,6 +26,8 @@ class PatientViewModel(private val homeRepository: HomeRepository) : ParentViewM
     val patientProfile = MutableLiveData<PatientProfileData?>()
     val patientReportList = MutableLiveData<ArrayList<DataItem>?>()
 
+    var totalPages = MutableLiveData<Int>()
+
     fun newPatientProfile(
         gender: String,
         fullName: String,
@@ -62,14 +64,27 @@ class PatientViewModel(private val homeRepository: HomeRepository) : ParentViewM
     }
 
 
-
     fun getPatientList(
         page: Int,
         onResult: (isSuccess: Boolean) -> Unit
     ) {
         viewModelScope.launch {
             showLoading.postValue(true)
-            homeRepository.getPatientList { isSuccess, response ->
+            homeRepository.getPatientList(page) { isSuccess, response ->
+                showLoading.postValue(false)
+                if (response.status == true) {
+                    onResult(true)
+                    patientList.postValue(response.data)
+                    totalPages.postValue(response.lastPage ?: 1)
+                } else {
+                    errorToastMessage.postValue(response.message)
+                    onResult(false)
+                }
+            }
+        }
+        viewModelScope.launch {
+            showLoading.postValue(true)
+            homeRepository.getPatientList(page) { isSuccess, response ->
                 showLoading.postValue(false)
                 if (response.status == true) {
                     onResult(true)

@@ -26,11 +26,11 @@ class ParticularPatientReportAdapter(override val layoutId: Int) :
             e.printStackTrace()
         }
         holder.binding.ivPdf.setOnClickListener {
-            clickListener?.onClickPdF(item.pdfDoc.toString())
+            clickListener?.onClickPdF(item.fileUrl.toString())
 
         }
         holder.binding.ivSharePdf.setOnClickListener {
-            clickListener?.onClickShare(item.pdfDoc.toString())
+            clickListener?.onClickShare(item.fileUrl.toString())
         }
     }
 

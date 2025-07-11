@@ -29,7 +29,7 @@ interface HomeDataSource {
         imagePart: MultipartBody.Part?
     ): DocProfileResponse
 
-    suspend fun getPatientList(): PatientResponse
+    suspend fun getPatientList(page:Int): PatientResponse
 
     suspend fun patientProfile(
         params: Map<String?, RequestBody>,

@@ -45,7 +45,11 @@ class PdfViewActivity : AppCompatActivity() {
             mBinding.pdfView.visibility = View.VISIBLE
             mBinding.tvNoDataFound.visibility = View.GONE
             try {
-                mBinding.pdfView.initWithFile(File(pdfFile))
+                if (pdfPath.isNotEmpty() && pdfPath.startsWith("http")||pdfPath.startsWith("https")) {
+                    downloadAndOpenPdf(pdfPath)
+                } else {
+                    openPdf(File(pdfFile))
+                }
             } catch (e: Exception) {
                 mBinding.pdfView.visibility = View.GONE
                 mBinding.tvNoDataFound.visibility = View.VISIBLE
@@ -55,6 +59,36 @@ class PdfViewActivity : AppCompatActivity() {
         initListener()
     }
 
+    private fun downloadAndOpenPdf(url: String) {
+        val fileName = url.substringAfterLast("/")
+        val file = File(cacheDir, fileName)
+
+        if (file.exists()) {
+            openPdf(file)
+            return
+        }
+
+        Thread {
+            try {
+                val input = java.net.URL(url).openStream()
+                file.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+                runOnUiThread { openPdf(file) }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                runOnUiThread {
+                    mBinding.pdfView.visibility = View.GONE
+                    mBinding.tvNoDataFound.visibility = View.VISIBLE
+                }
+            }
+        }.start()
+    }
+    private fun openPdf(file: File) {
+        mBinding.pdfView.visibility = View.VISIBLE
+        mBinding.tvNoDataFound.visibility = View.GONE
+        mBinding.pdfView.initWithFile(file)
+    }
     private fun initListener() {
         mBinding.ivBack.setOnClickListener {
             finish()

@@ -63,10 +63,12 @@ class HomeDataSourceImpl(
         }
     }
 
-    override suspend fun getPatientList(): PatientResponse {
+    override suspend fun getPatientList(
+        page:Int
+    ): PatientResponse {
         var baseResponse = PatientResponse()
         try {
-            baseResponse = api.getPatientList()
+            baseResponse = api.getPatientList(page)
             baseResponse.status = true
         } catch (e: Exception) {
             baseResponse.status = false

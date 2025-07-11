@@ -39,8 +39,11 @@ class HomeRepositoryImpl(private val homeDataSource: HomeDataSource) : HomeRepos
         response.status?.let { onResult(it, response) }
     }
 
-    override suspend fun getPatientList(onResult: (Boolean, PatientResponse) -> Unit) {
-        val response = homeDataSource.getPatientList()
+    override suspend fun getPatientList(
+        param: Int,
+        onResult: (Boolean, PatientResponse) -> Unit
+    ) {
+        val response = homeDataSource.getPatientList(param)
         response.status.let { onResult(it, response) }
     }
 
@@ -85,6 +88,7 @@ class HomeRepositoryImpl(private val homeDataSource: HomeDataSource) : HomeRepos
         response.status?.let { onResult(it, response) }
 
     }
+
     override suspend fun updatePatientReport(
         params: PatientReportRequest,
         onResult: (isSuccess: Boolean, baseResponse: PatientReportResponse) -> Unit
@@ -106,7 +110,6 @@ class HomeRepositoryImpl(private val homeDataSource: HomeDataSource) : HomeRepos
         }
         return map
     }
-
 
 
     override suspend fun getDoctorsDetailList(onResult: (isSuccess: Boolean, baseResponse: DoctorsDetailResponse) -> Unit) {
@@ -235,7 +238,6 @@ class HomeRepositoryImpl(private val homeDataSource: HomeDataSource) : HomeRepos
             null
         }
     }
-
 
 
 }

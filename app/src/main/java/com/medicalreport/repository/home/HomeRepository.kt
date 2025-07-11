@@ -25,6 +25,7 @@ interface HomeRepository {
     )
 
     suspend fun getPatientList(
+        param: Int,
         onResult: (isSuccess: Boolean, baseResponse: PatientResponse) -> Unit
     )
 

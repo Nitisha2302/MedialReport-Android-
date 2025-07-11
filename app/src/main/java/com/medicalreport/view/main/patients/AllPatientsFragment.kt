@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.medicalreport.R
 import com.medicalreport.base.BaseFragment
 import com.medicalreport.databinding.FragmentAllPatientsBinding
@@ -32,7 +34,7 @@ class AllPatientsFragment : BaseFragment<FragmentAllPatientsBinding>(),
     private var fromWhere: String = ""
     private var bundle = Bundle()
     private var currentPage = 1
-    private var totalPages = 1
+    private var totalPages: Int? = null
     private var isLoading = false
     private var isLastPage = false
 
@@ -52,6 +54,21 @@ class AllPatientsFragment : BaseFragment<FragmentAllPatientsBinding>(),
             fromWhere = "patientProfile"
         }
         requestDataCalls()
+        mBinding.btnNext?.setOnClickListener {
+            totalPages?.let { it1 ->
+                if (currentPage < it1) {
+                    currentPage++
+                    requestDataCalls()
+                }
+            }
+        }
+
+        mBinding.btnPrevious?.setOnClickListener {
+            if (currentPage > 1) {
+                currentPage--
+                requestDataCalls()
+            }
+        }
     }
 
     private fun requestDataCalls() {
@@ -87,22 +104,31 @@ class AllPatientsFragment : BaseFragment<FragmentAllPatientsBinding>(),
         viewModel.apply {
             patientList.observe(viewLifecycleOwner) {
                 it?.let { newItems ->
-                    if (currentPage == 1) {
+                    newItems.let {
+                        patientArrayList.clear()
+                        patientArrayList.addAll(newItems)
                         patientAdapter.setNewItems(newItems)
-                    } else {
-                        patientAdapter.addItems(newItems)
+                        updatePaginationUI()
                     }
-                    patientArrayList.addAll(newItems)
                 }
 
-                /*// Assuming your ViewModel has a field for total pages
-                totalPages = viewModel.totalPages.value ?: 1
-                isLastPage = currentPage >= totalPages*/
             }
-
+            totalPages.observe(viewLifecycleOwner) { page ->
+                this@AllPatientsFragment.totalPages = page
+                page?.let {
+                    isLastPage = currentPage >= it
+                }
+                updatePaginationUI()
+            }
 
             setPatientAdapter()
         }
+    }
+
+    private fun updatePaginationUI() {
+        mBinding.tvPageIndicator?.text = "$currentPage"
+        mBinding.btnPrevious?.isEnabled = currentPage > 1
+        totalPages?.let { mBinding.btnNext?.isEnabled = currentPage < it }
     }
 
     private fun setPatientAdapter() {
@@ -110,6 +136,7 @@ class AllPatientsFragment : BaseFragment<FragmentAllPatientsBinding>(),
             clickListener = this@AllPatientsFragment
         }
         mBinding.rvPatientHistory.adapter = patientAdapter
+
     }
 
     override fun onClickView(view: View, id: Int) {

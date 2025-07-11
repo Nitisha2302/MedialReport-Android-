@@ -57,7 +57,7 @@ interface ApiService {
     ): DocProfileResponse
 
     @GET("patient/list")
-    suspend fun getPatientList(): PatientResponse
+    suspend fun getPatientList(@Query("page") page: Int): PatientResponse
 
     @Multipart
     @POST("patient/create")
@@ -98,7 +98,7 @@ interface ApiService {
     @GET("report/list")
     suspend fun getReportList(): PatientReportListResponse
 
-    @GET("report/list/{id}")
+    @GET("report/patient-report-list/{id}")
     suspend fun getParticularPatientReportList(@Path("id") id: Int): PatientReportListResponse
 
     @POST("doctor/listing")

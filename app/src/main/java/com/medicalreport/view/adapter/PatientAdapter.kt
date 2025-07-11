@@ -56,11 +56,6 @@ class PatientAdapter(override val layoutId: Int) :
         notifyDataSetChanged()
     }
 
-    fun addItems(newItems: List<PatientData>) {
-        val start = patientList.size
-        patientList.addAll(newItems)
-        notifyItemRangeInserted(start, newItems.size)
-    }
 
     interface ClickListener {
         fun onClickView(view: View, id: Int)

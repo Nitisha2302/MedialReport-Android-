@@ -128,27 +128,6 @@
                         app:layout_constraintStart_toEndOf="@id/ivPhone"
                         app:layout_constraintTop_toTopOf="@+id/ivPhone" />
 
-                    <ImageView
-                        android:id="@+id/ivEmail"
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_11sdp"
-                        android:src="@drawable/ic_email"
-                        app:layout_constraintStart_toStartOf="@id/ivName"
-                        app:layout_constraintTop_toBottomOf="@id/ivPhone"
-                        app:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/tvEmail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:fontFamily="@font/helvetica_regular"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_14sdp"
-                        app:layout_constraintBottom_toBottomOf="@id/ivEmail"
-                        app:layout_constraintStart_toEndOf="@id/ivEmail"
-                        app:layout_constraintTop_toTopOf="@+id/ivEmail" />
 
                     <ImageView
                         android:id="@+id/ivAddress"
@@ -157,7 +136,7 @@
                         android:layout_marginTop="@dimen/_11sdp"
                         android:src="@drawable/ic_location_pin"
                         app:layout_constraintStart_toStartOf="@id/ivName"
-                        app:layout_constraintTop_toBottomOf="@id/ivEmail"
+                        app:layout_constraintTop_toBottomOf="@id/tvPhone"
                         app:tint="@color/white" />
 
                     <TextView
