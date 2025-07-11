@@ -61,7 +61,10 @@ class PatientViewModel(private val homeRepository: HomeRepository) : ParentViewM
         }
     }
 
+
+
     fun getPatientList(
+        page: Int,
         onResult: (isSuccess: Boolean) -> Unit
     ) {
         viewModelScope.launch {

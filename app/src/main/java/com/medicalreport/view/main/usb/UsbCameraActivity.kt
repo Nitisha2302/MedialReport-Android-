@@ -39,6 +39,7 @@ import com.medicalreport.databinding.ActivityUsbCameraBinding
 import com.medicalreport.fps.FpsCounter
 import com.medicalreport.modal.response.ImageData
 import com.medicalreport.modal.response.SelectedDoctorsResponse
+import com.medicalreport.utils.Prefs
 import com.medicalreport.utils.disableMultiTap
 import com.medicalreport.view.adapter.ImageAdapter
 import com.medicalreport.view.main.reports.PdfGenerationActivity
@@ -116,16 +117,39 @@ class UsbCameraActivity : AppCompatActivity(), CameraDialogParent, CameraViewInt
                     }
                     Looper.prepare()
                     if (::mCameraHelper.isInitialized && mCameraHelper.isCameraOpened) {
-                        mBinding.seekbarBrightness.setProgress(
-                            mCameraHelper.getModelValue(
-                                UVCCameraHelper.MODE_BRIGHTNESS
-                            )
-                        )
-                        mBinding.seekbarContrast.setProgress(
-                            mCameraHelper.getModelValue(
-                                UVCCameraHelper.MODE_CONTRAST
-                            )
-                        )
+                        val brightness = Prefs.init().keyBrightness
+                        val contrast = Prefs.init().keyContrast
+                        mCameraHelper.setModelValue(UVCCameraHelper.MODE_BRIGHTNESS, brightness)
+                        mCameraHelper.setModelValue(UVCCameraHelper.MODE_CONTRAST, contrast)
+
+                        mBinding.seekbarBrightness.progress = brightness
+                        mBinding.seekbarContrast.progress = contrast
+
+                        Prefs.init().keyWhiteBalance?.let {
+                            if (it == "auto") mCameraHelper.startAutoWhiteBalance()
+                        }
+
+                        Prefs.init().keyResolution?.let { res ->
+                            val parts = res.split("x")
+                            if (parts.size == 2) {
+                                val width = parts[0].toIntOrNull() ?: 0
+                                val height = parts[1].toIntOrNull() ?: 0
+                                if (width > 0 && height > 0) {
+                                    mCameraHelper.updateResolution(width, height)
+                                }
+                            }
+                        }
+
+                        /* mBinding.seekbarBrightness.setProgress(
+                             mCameraHelper.getModelValue(
+                                 UVCCameraHelper.MODE_BRIGHTNESS
+                             )
+                         )
+                         mBinding.seekbarContrast.setProgress(
+                             mCameraHelper.getModelValue(
+                                 UVCCameraHelper.MODE_CONTRAST
+                             )
+                         )*/
                     }
                     Looper.loop()
                 }.start()
@@ -229,6 +253,7 @@ class UsbCameraActivity : AppCompatActivity(), CameraDialogParent, CameraViewInt
                 return@setOnClickListener
             }
             mCameraHelper.startAutoWhiteBalance()
+            Prefs.init().keyWhiteBalance = "auto"
         }
 
         mBinding.ivContrast.setOnClickListener {
@@ -362,10 +387,6 @@ class UsbCameraActivity : AppCompatActivity(), CameraDialogParent, CameraViewInt
     }
 
     private fun setImageClickAdapter(imageList: MutableList<ImageData>) {
-        val layoutManager = LinearLayoutManager(this)
-        layoutManager.orientation = RecyclerView.VERTICAL
-        mBinding.photosRecyclerview.layoutManager = layoutManager
-
         try {
             val itemDecor = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
@@ -409,13 +430,20 @@ class UsbCameraActivity : AppCompatActivity(), CameraDialogParent, CameraViewInt
         mBinding.seekbarBrightness.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                if (::mCameraHelper.isInitialized && mCameraHelper.isCameraOpened) {
-                    mCameraHelper.setModelValue(UVCCameraHelper.MODE_BRIGHTNESS, progress)
+                try {
+                    if (::mCameraHelper.isInitialized && mCameraHelper.isCameraOpened) {
+                        mCameraHelper.setModelValue(UVCCameraHelper.MODE_BRIGHTNESS, progress)
+                    }
+                } catch (e: IllegalStateException) {
+                    e.printStackTrace()
+                    showShortMsg("Camera is not available")
                 }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                Prefs.init().keyBrightness = seekBar.progress
+            }
         })
 
         mBinding.seekbarContrast.max = 100
@@ -424,11 +452,14 @@ class UsbCameraActivity : AppCompatActivity(), CameraDialogParent, CameraViewInt
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 if (::mCameraHelper.isInitialized && mCameraHelper.isCameraOpened) {
                     mCameraHelper.setModelValue(UVCCameraHelper.MODE_CONTRAST, progress)
+
                 }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                Prefs.init().keyContrast = seekBar.progress
+            }
         })
     }
 
@@ -465,19 +496,22 @@ class UsbCameraActivity : AppCompatActivity(), CameraDialogParent, CameraViewInt
             getResolutionList()
         )
         listView.adapter = adapter
-        listView.onItemClickListener = AdapterView.OnItemClickListener { adapterView, _, position, _ ->
-            if (!::mCameraHelper.isInitialized || !mCameraHelper.isCameraOpened) return@OnItemClickListener
-            val resolution = adapterView.getItemAtPosition(position) as String
-            val tmp = resolution.split("x")
-            if (tmp.size >= 2) {
-                val width = tmp[0].toIntOrNull() ?: 0
-                val height = tmp[1].toIntOrNull() ?: 0
-                if (width > 0 && height > 0) {
-                    mCameraHelper.updateResolution(width, height)
+        listView.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, _, position, _ ->
+                if (!::mCameraHelper.isInitialized || !mCameraHelper.isCameraOpened) return@OnItemClickListener
+                val resolution = adapterView.getItemAtPosition(position) as String
+                val tmp = resolution.split("x")
+                if (tmp.size >= 2) {
+                    val width = tmp[0].toIntOrNull() ?: 0
+                    val height = tmp[1].toIntOrNull() ?: 0
+                    if (width > 0 && height > 0) {
+                        mCameraHelper.updateResolution(width, height)
+                        Prefs.init().keyResolution = resolution
+
+                    }
                 }
+                mDialog?.dismiss()
             }
-            mDialog?.dismiss()
-        }
         builder.setView(rootView)
         mDialog = builder.create()
         mDialog?.show()

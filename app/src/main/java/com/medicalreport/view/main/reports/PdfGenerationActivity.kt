@@ -13,11 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,10 +26,8 @@ import com.medicalreport.utils.EdTextWatcher
 import com.medicalreport.utils.Prefs
 import com.medicalreport.utils.Util
 import com.medicalreport.utils.disableMultiTap
-import com.medicalreport.utils.filePathToBase64String
 import com.medicalreport.utils.getCurrentDate
 import com.medicalreport.utils.showToast
-import com.medicalreport.utils.uriToBase64
 import com.medicalreport.view.adapter.ReportCreationAdapter
 import com.medicalreport.view.main.dialog.SignatureDialogFragment
 import com.medicalreport.viewmodel.PatientViewModel
@@ -153,15 +148,19 @@ class PdfGenerationActivity : AppCompatActivity(), SignatureDialogFragment.Click
         }
     }
 
-    private fun sendDataToApi() {
+    private fun sendDataToApi(pdfPath: String) {
         patientId = Prefs.init().patientId
-        val pdfFile = downloadsDir + fileName
-        /* var pdfFile = "file:///${downloadsDir}/${fileName}"
-         var newPdfFile = pdfFilePathToBase64String(pdfFile)*/
-
+        println("send to pdf view to api ${pdfPath},${patientId}")
         if (Util.checkIfHasNetwork()) {
             patientId?.let {
-                viewModel.updatePatientReport(it, pdfFile) {
+                viewModel.updatePatientReport(it, pdfPath) {
+                    if (it){
+                        bundle.putString("pdfPath", pdfPath)
+                        val intent = Intent(this, PdfViewActivity::class.java)
+                        intent.putExtras(bundle)
+                        startActivity(intent)
+                        finish()
+                    }
                 }
 
             }
@@ -209,7 +208,6 @@ class PdfGenerationActivity : AppCompatActivity(), SignatureDialogFragment.Click
         // Create a new PdfDocument instance
         val document = PdfDocument()
 
-
         // Obtain the width and height of the view
         val viewWidth = view.measuredWidth
         val viewHeight = view.measuredHeight
@@ -243,23 +241,22 @@ class PdfGenerationActivity : AppCompatActivity(), SignatureDialogFragment.Click
             document.writeTo(fos)
             document.close()
             Toast.makeText(this, "Pdf Created Successfully...", Toast.LENGTH_SHORT).show()
+
         } catch (e: FileNotFoundException) {
             throw RuntimeException(e)
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
-        sendDataToApi()
+
         viewPdfFile(downloadsDir, fileName)
 
     }
 
     private fun viewPdfFile(downloadsDir: String, fileName: String) {
+        println("pdfview")
         val pdfPath = downloadsDir + fileName
-        bundle.putString("pdfPath", pdfPath)
-        val intent = Intent(this, PdfViewActivity::class.java)
-        intent.putExtras(bundle)
-        startActivity(intent)
-        finish()
+        sendDataToApi(pdfPath)
+
     }
 
     override fun onClickSave(transparentSignatureBitmap: Bitmap) {

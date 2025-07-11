@@ -21,6 +21,13 @@ class Prefs {
     private val HOSPITALADDRESS = " HOSPITALADDRESS"
     private val HOSPITALPHONE = " HOSPITALPHONE"
 
+    private val PREFS_NAME = "CameraPrefs"
+    private val KEY_RESOLUTION = "camera_resolution"
+    private val KEY_BRIGHTNESS = "camera_brightness"
+    private val KEY_CONTRAST = "camera_contrast"
+    private val KEY_WHITE_BALANCE = "camera_white_balance"
+    private val KEY_RECORD_FORMAT = "camera_record_format"
+
 
     private var sharedPreferences: SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(MainApplication.get().applicationContext)
@@ -133,22 +140,57 @@ class Prefs {
             sharedPreferences.edit().putString(HOSPITALNAME, value).apply()
         }
 
-    var hospitalAddress:String
+    var hospitalAddress: String
         get() {
-            return sharedPreferences.getString(HOSPITALADDRESS,"" )?:""
+            return sharedPreferences.getString(HOSPITALADDRESS, "") ?: ""
         }
         set(value) {
             sharedPreferences.edit().putString(HOSPITALADDRESS, value).apply()
 
         }
-    var hospitalPhoneNumber:String
+    var hospitalPhoneNumber: String
         get() {
-            return sharedPreferences.getString(HOSPITALPHONE,"" )?:""
+            return sharedPreferences.getString(HOSPITALPHONE, "") ?: ""
 
         }
         set(value) {
             sharedPreferences.edit().putString(HOSPITALPHONE, value).apply()
 
+        }
+    var keyResolution: String
+        get() {
+            return sharedPreferences.getString(KEY_RESOLUTION, "") ?: ""
+
+        }
+        set(value) {
+            sharedPreferences.edit().putString(KEY_RESOLUTION, value).apply()
+
+        }
+    var keyBrightness: Int
+        get() {
+            return sharedPreferences.getInt(KEY_BRIGHTNESS, 0)
+
+        }
+        set(value) {
+            sharedPreferences.edit().putInt(KEY_BRIGHTNESS, value).apply()
+
+        }
+    var keyContrast: Int
+        get() {
+            return sharedPreferences.getInt(KEY_CONTRAST, 0)
+
+        }
+        set(value) {
+            sharedPreferences.edit().putInt(KEY_CONTRAST, value).apply()
+
+        }
+
+    var keyWhiteBalance: String
+        get() {
+            return sharedPreferences.getString(KEY_WHITE_BALANCE,"")?:""
+        }
+        set(value) {
+            sharedPreferences.edit().putString(KEY_WHITE_BALANCE, value).apply()
         }
 
 }

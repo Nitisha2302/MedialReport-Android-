@@ -31,6 +31,10 @@ class AllPatientsFragment : BaseFragment<FragmentAllPatientsBinding>(),
     private var search: String = ""
     private var fromWhere: String = ""
     private var bundle = Bundle()
+    private var currentPage = 1
+    private var totalPages = 1
+    private var isLoading = false
+    private var isLastPage = false
 
     override val fragmentLayoutId: Int
         get() = R.layout.fragment_all_patients
@@ -52,8 +56,9 @@ class AllPatientsFragment : BaseFragment<FragmentAllPatientsBinding>(),
 
     private fun requestDataCalls() {
         if (Util.checkIfHasNetwork()) {
-            viewModel.getPatientList {
-
+            isLoading = true
+            viewModel.getPatientList(currentPage) {
+                isLoading = false
             }
         } else {
             showNoInternetAlert()
@@ -81,9 +86,20 @@ class AllPatientsFragment : BaseFragment<FragmentAllPatientsBinding>(),
         }
         viewModel.apply {
             patientList.observe(viewLifecycleOwner) {
-                it?.let { newItems -> patientAdapter.setNewItems(newItems) }
-                it?.let { c -> patientArrayList.addAll(c) }
+                it?.let { newItems ->
+                    if (currentPage == 1) {
+                        patientAdapter.setNewItems(newItems)
+                    } else {
+                        patientAdapter.addItems(newItems)
+                    }
+                    patientArrayList.addAll(newItems)
+                }
+
+                /*// Assuming your ViewModel has a field for total pages
+                totalPages = viewModel.totalPages.value ?: 1
+                isLastPage = currentPage >= totalPages*/
             }
+
 
             setPatientAdapter()
         }
