@@ -87,9 +87,10 @@ interface ApiService {
 
     @Multipart
     @POST("report/create")
+    @JvmSuppressWildcards
     suspend fun updatePatientReport(
-        @PartMap params: Map<String?, RequestBody>,
-        @Part file: MultipartBody.Part?
+        @PartMap params: Map<String, RequestBody>,
+        @Part imagePart: MultipartBody.Part?
     ): PatientReportResponse
 
     @GET("notifications")

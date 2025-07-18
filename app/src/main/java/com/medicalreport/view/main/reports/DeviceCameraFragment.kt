@@ -83,9 +83,6 @@ class DeviceCameraFragment : Fragment() {
     }
 
     private fun setImageClickAdapter(imageList: MutableList<ImageData>) {
-        val layoutManager = LinearLayoutManager(context)
-        layoutManager.orientation = RecyclerView.VERTICAL
-        mBinding.photosRecyclerview.setLayoutManager(layoutManager)
         try {
             val itemDecor =
                 ItemTouchHelper((object : ItemTouchHelper.SimpleCallback(imageList.size, 0) {

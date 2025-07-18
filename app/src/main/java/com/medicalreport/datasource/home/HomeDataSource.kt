@@ -37,7 +37,7 @@ interface HomeDataSource {
     ): PatientProfileResponse
 
     suspend fun updatePatientReport(
-        params: Map<String?, RequestBody>,
+        params: Map<String, RequestBody>,
         imagePart: MultipartBody.Part?
     ): PatientReportResponse
 

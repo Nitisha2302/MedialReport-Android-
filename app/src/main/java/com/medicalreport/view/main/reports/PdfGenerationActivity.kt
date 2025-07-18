@@ -53,7 +53,6 @@ class PdfGenerationActivity : AppCompatActivity(), SignatureDialogFragment.Click
     var imageDataList: ArrayList<ImageData>? = arrayListOf()
     private var selectedDoctors: ArrayList<SelectedDoctorsResponse>? = arrayListOf()
     var bundle = Bundle()
-//    var imageUpdatedDataList: ArrayList<DocImageItem> = arrayListOf()
     private lateinit var bitmap: Bitmap
     var downloadsDir: String = ""
     var fileName: String = ""
@@ -62,6 +61,13 @@ class PdfGenerationActivity : AppCompatActivity(), SignatureDialogFragment.Click
     var currentDate: String? = ""
     private var ivSignature: ImageView? = null
     private var signatureDialogFragment = SignatureDialogFragment()
+
+    // A4 size constants in points (1 point = 1/72 inch)
+    companion object {
+        const val A4_WIDTH_POINTS = 595   // 8.27 inches * 72 points/inch
+        const val A4_HEIGHT_POINTS = 842  // 11.69 inches * 72 points/inch
+        const val PDF_MARGIN = 40         // Margin in points
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,32 +87,12 @@ class PdfGenerationActivity : AppCompatActivity(), SignatureDialogFragment.Click
             fromWhere = bundle?.getString("fromWhere").toString()
             selectedDoctors = bundle?.getParcelableArrayList("selectedDoctors")
             imageDataList?.let { setImageClickAdapter(it) }
-//            convertBase64String(imageDataList)
-
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-
         initView()
-
-
     }
-
-   /* private fun convertBase64String(imageDataList: ArrayList<ImageData>?) {
-        if (fromWhere == "deviceCamera") {
-            imageDataList?.forEach {
-                imageUpdatedDataList.add(DocImageItem(uriToBase64(it.image, this)))
-
-            }
-        } else {
-            imageDataList?.forEach {
-                imageUpdatedDataList.add(DocImageItem(filePathToBase64String(it.image, this)))
-            }
-        }
-
-    }*/
-
 
     private fun initView() {
         mBinding.etPatientName.text = fullName
@@ -127,57 +113,81 @@ class PdfGenerationActivity : AppCompatActivity(), SignatureDialogFragment.Click
     private fun initListener() {
         mBinding.ivSave.setOnClickListener {
             it.disableMultiTap()
-            bitmap = loadBitmapFromView(
+            // Create bitmap with A4 proportions for better PDF quality
+            bitmap = loadBitmapFromViewForA4(
                 mBinding.clLayout,
-                mBinding.clLayout.width,
-                mBinding.clLayout.height
+                A4_WIDTH_POINTS,
+                A4_HEIGHT_POINTS
             )
             generatePdfReport()
         }
         mBinding.ivBack.setOnClickListener {
             it.disableMultiTap()
             finish()
-            finish()
         }
         mBinding.clSignature.setOnClickListener {
             it.disableMultiTap()
-            signatureDialogFragment.setOnSignatureCallback(this) // Pass the interface instance
+            signatureDialogFragment.setOnSignatureCallback(this)
             signatureDialogFragment.show(supportFragmentManager, "signature_dialog")
-            /* signatureDialogFragment.setTargetFragment(null, DIALOG_SUCCESS)
-             */
         }
     }
 
     private fun sendDataToApi(pdfPath: String) {
         patientId = Prefs.init().patientId
         println("send to pdf view to api ${pdfPath},${patientId}")
+        val file = File(pdfPath)
+        if (!file.exists()) {
+            Toast.makeText(this, "PDF file not found", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         if (Util.checkIfHasNetwork()) {
             patientId?.let {
                 viewModel.updatePatientReport(it, pdfPath) {
-                    if (it){
+                    if (it) {
                         bundle.putString("pdfPath", pdfPath)
                         val intent = Intent(this, PdfViewActivity::class.java)
                         intent.putExtras(bundle)
                         startActivity(intent)
                         finish()
+                    } else {
+                        Toast.makeText(this, "Failed to upload PDF", Toast.LENGTH_SHORT).show()
                     }
                 }
-
             }
         } else {
             showToast(this, getString(R.string.no_internet_connection))
         }
     }
 
-
-    private fun loadBitmapFromView(
+    private fun loadBitmapFromViewForA4(
         clReportLayout: ConstraintLayout,
-        width: Int,
-        height: Int
+        targetWidth: Int,
+        targetHeight: Int
     ): Bitmap {
-        bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        var canvas = Canvas(bitmap)
+        // Get the current dimensions of the view
+        val currentWidth = clReportLayout.width
+        val currentHeight = clReportLayout.height
+
+        // Calculate scale factor to fit A4 while maintaining aspect ratio
+        val scaleX = targetWidth.toFloat() / currentWidth.toFloat()
+        val scaleY = targetHeight.toFloat() / currentHeight.toFloat()
+        val scale = minOf(scaleX, scaleY)
+
+        // Calculate actual dimensions after scaling
+        val scaledWidth = (currentWidth * scale).toInt()
+        val scaledHeight = (currentHeight * scale).toInt()
+
+        // Create bitmap with scaled dimensions
+        val bitmap = Bitmap.createBitmap(scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+
+        // Scale the canvas
+        canvas.scale(scale, scale)
+
+        // Draw the view onto the scaled canvas
         clReportLayout.draw(canvas)
+
         return bitmap
     }
 
@@ -187,81 +197,116 @@ class PdfGenerationActivity : AppCompatActivity(), SignatureDialogFragment.Click
         mBinding.rvImagesList.setLayoutManager(layoutManager)
         imageAdapter = ReportCreationAdapter(imageList)
         mBinding.rvImagesList.setAdapter(imageAdapter)
-
     }
 
     private fun generatePdfReport() {
-        var view = LayoutInflater.from(this).inflate(R.layout.activity_pdf_generation, null)
-        // Get the screen dimensions
-        val displayMetrics = DisplayMetrics()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            this.display?.getRealMetrics(displayMetrics)
-        } else this.windowManager.defaultDisplay.getMetrics(displayMetrics)
-
-        view.measure(
-            View.MeasureSpec.makeMeasureSpec(displayMetrics.widthPixels, View.MeasureSpec.EXACTLY),
-            View.MeasureSpec.makeMeasureSpec(displayMetrics.heightPixels, View.MeasureSpec.EXACTLY)
-        )
-        view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels)
-
-        // Create a new PdfDocument instance
-        val document = PdfDocument()
-
-        // Obtain the width and height of the view
-        val viewWidth = view.measuredWidth
-        val viewHeight = view.measuredHeight
-
-        // Create a PageInfo object specifying the page attributes
-        val pageInfo = PdfDocument.PageInfo.Builder(viewWidth, viewHeight, 1).create()
-        var page = document.startPage(pageInfo)
-
-        //Canvas
-        var canvas = page.canvas
-        val paint = Paint()
-        canvas.drawPaint(paint)
-        bitmap = Bitmap.createScaledBitmap(bitmap, viewWidth, viewHeight, true)
-        canvas.drawBitmap(bitmap, 0.0F, 0.0F, null)
-        //Finish the page
-        document.finishPage(page)
-        val currentTime = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-        downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-            .toString() + "/" + "SIMS/"
-        // Make sure the folder exists
-        val folder = File(downloadsDir)
-        if (!folder.exists()) {
-            folder.mkdirs() // <-- Create folder if it doesn't exist
-        }
-        fileName = "${fullName}_PDF_${currentTime}.pdf"
-        val file = File(downloadsDir, fileName)
-
-
         try {
-            var fos = FileOutputStream(file)
+            // Create a new PdfDocument instance
+            val document = PdfDocument()
+
+            // Create PageInfo with A4 dimensions
+            val pageInfo = PdfDocument.PageInfo.Builder(
+                A4_WIDTH_POINTS,
+                A4_HEIGHT_POINTS,
+                1
+            ).create()
+
+            // Start the page
+            val page = document.startPage(pageInfo)
+            val canvas = page.canvas
+
+            // Create paint for drawing
+            val paint = Paint().apply {
+                isAntiAlias = true
+                isDither = true
+                isFilterBitmap = true
+            }
+
+            // Fill the canvas with white background
+            canvas.drawColor(android.graphics.Color.WHITE)
+
+            // Calculate position to center the content on A4 page
+            val availableWidth = A4_WIDTH_POINTS - (PDF_MARGIN * 2)
+            val availableHeight = A4_HEIGHT_POINTS - (PDF_MARGIN * 2)
+
+            // Scale bitmap to fit within A4 margins if needed
+            val scaledBitmap =
+                if (bitmap.width > availableWidth || bitmap.height > availableHeight) {
+                    val scaleX = availableWidth.toFloat() / bitmap.width.toFloat()
+                    val scaleY = availableHeight.toFloat() / bitmap.height.toFloat()
+                    val scale = minOf(scaleX, scaleY)
+
+                    val newWidth = (bitmap.width * scale).toInt()
+                    val newHeight = (bitmap.height * scale).toInt()
+
+                    Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
+                } else {
+                    bitmap
+                }
+
+            // Calculate position to center the content
+            val xOffset = (A4_WIDTH_POINTS - scaledBitmap.width) / 2f
+            val yOffset = PDF_MARGIN.toFloat()
+
+            // Draw the bitmap on canvas
+            canvas.drawBitmap(scaledBitmap, xOffset, yOffset, paint)
+
+            // Finish the page
+            document.finishPage(page)
+
+            // Save the PDF
+            savePdfDocument(document)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error generating PDF: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun savePdfDocument(document: PdfDocument) {
+        try {
+            val currentTime = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+            downloadsDir =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+                    .toString() + "/" + "SIMS/"
+
+            // Make sure the folder exists
+            val folder = File(downloadsDir)
+            if (!folder.exists()) {
+                folder.mkdirs()
+            }
+
+            fileName = "${fullName}_PDF_${currentTime}.pdf"
+            val file = File(downloadsDir, fileName)
+
+            val fos = FileOutputStream(file)
             document.writeTo(fos)
+            fos.close()
             document.close()
-            Toast.makeText(this, "Pdf Created Successfully...", Toast.LENGTH_SHORT).show()
+
+            Toast.makeText(this, "A4 PDF Created Successfully...", Toast.LENGTH_SHORT).show()
+            viewPdfFile(downloadsDir, fileName)
 
         } catch (e: FileNotFoundException) {
-            throw RuntimeException(e)
+            Toast.makeText(this, "File not found: ${e.message}", Toast.LENGTH_LONG).show()
+            e.printStackTrace()
         } catch (e: IOException) {
-            throw RuntimeException(e)
+            Toast.makeText(this, "IO Error: ${e.message}", Toast.LENGTH_LONG).show()
+            e.printStackTrace()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error saving PDF: ${e.message}", Toast.LENGTH_LONG).show()
+            e.printStackTrace()
         }
-
-        viewPdfFile(downloadsDir, fileName)
-
     }
 
     private fun viewPdfFile(downloadsDir: String, fileName: String) {
         println("pdfview")
         val pdfPath = downloadsDir + fileName
         sendDataToApi(pdfPath)
-
     }
 
     override fun onClickSave(transparentSignatureBitmap: Bitmap) {
         mBinding.ivDSignature.setImageBitmap(transparentSignatureBitmap)
         mBinding.tvSignature.visibility = View.GONE
-
     }
 }

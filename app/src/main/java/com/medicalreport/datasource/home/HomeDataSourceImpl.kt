@@ -95,7 +95,7 @@ class HomeDataSourceImpl(
     }
 
     override suspend fun updatePatientReport(
-        params: Map<String?, RequestBody>,
+        params: Map<String, RequestBody>,
         imagePart: MultipartBody.Part?
     ): PatientReportResponse {
         var baseResponse = PatientReportResponse()
@@ -105,10 +105,11 @@ class HomeDataSourceImpl(
         } catch (e: Exception) {
             baseResponse.success = false
             baseResponse.message = ApiService.getErrorMessageFromGenericResponse(e, resources)
-        } finally {
-            return baseResponse
+            e.printStackTrace() // Add this to see the actual error
         }
+        return baseResponse
     }
+
 
     override suspend fun updatePatientProfile(
         patientId: Int,

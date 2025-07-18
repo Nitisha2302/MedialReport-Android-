@@ -15,6 +15,7 @@ import com.medicalreport.modal.response.PatientProfileData
 import com.medicalreport.repository.home.HomeRepository
 import com.pentasoft.docportal.utils.Scope
 import kotlinx.coroutines.launch
+import java.io.File
 
 class PatientViewModel(private val homeRepository: HomeRepository) : ParentViewModel() {
     var patientProfileRequest = ObservableField(PatientProfileRequest())
@@ -184,25 +185,41 @@ class PatientViewModel(private val homeRepository: HomeRepository) : ParentViewM
         onResult: (isSuccess: Boolean) -> Unit
     ) {
         viewModelScope.launch {
-            showLoading.postValue(true)
-            updatePatientReportRequest.get()?.apply {
-                this.patientId = patientId
-                this.pdfFile = pdfFile
-            }?.let {
-                homeRepository.updatePatientReport(it) { isSuccess, response ->
+            try {
+                showLoading.postValue(true)
+
+                // Check if file exists
+                val file = File(pdfFile)
+                if (!file.exists()) {
                     showLoading.postValue(false)
-                    if (response.success == true) {
-                        onResult(true)
-                        toastMessage.postValue(response.message)
-                    } else {
-                        errorToastMessage.postValue(response.message)
-                        onResult(false)
+                    errorToastMessage.postValue("PDF file not found")
+                    onResult(false)
+                    return@launch
+                }
+
+                updatePatientReportRequest.get()?.apply {
+                    this.patientId = patientId
+                    this.pdfFile = pdfFile
+                }?.let { request ->
+                    homeRepository.updatePatientReport(request) { isSuccess, response ->
+                        showLoading.postValue(false)
+                        if (response.success == true) {
+                            onResult(true)
+                            toastMessage.postValue(response.message ?: "PDF uploaded successfully")
+                        } else {
+                            errorToastMessage.postValue(response.message ?: "Failed to upload PDF")
+                            onResult(false)
+                        }
                     }
                 }
+            } catch (e: Exception) {
+                showLoading.postValue(false)
+                errorToastMessage.postValue("Error uploading PDF: ${e.message}")
+                onResult(false)
             }
-
         }
     }
+
 
     fun getParticularPatientReportList(
         id: Int,

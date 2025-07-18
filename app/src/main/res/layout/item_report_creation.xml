@@ -4,8 +4,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvReportImage"
-        android:layout_width="@dimen/_135sdp"
-        android:layout_height="@dimen/_135sdp"
+        android:layout_width="@dimen/_55sdp"
+        android:layout_height="@dimen/_55sdp"
         android:layout_margin="@dimen/_3sdp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/_7sdp">

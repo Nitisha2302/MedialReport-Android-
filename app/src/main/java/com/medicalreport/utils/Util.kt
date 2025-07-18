@@ -28,6 +28,7 @@ import com.medicalreport.R
 import com.medicalreport.base.MainApplication
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
@@ -169,8 +170,9 @@ fun toIntRequestBody(value: Int?): RequestBody {
 fun toRequestBody(value: String): RequestBody {
     return RequestBody.create("text/plain".toMediaTypeOrNull(), value)
 }
+
 fun toPdfRequestBody(file: File): RequestBody {
-    return RequestBody.create("application/pdf".toMediaTypeOrNull(), file)
+    return file.asRequestBody("application/pdf".toMediaTypeOrNull())
 }
 fun toImageRequestBody(value: File): RequestBody {
     return RequestBody.create("image/*".toMediaTypeOrNull(), value)

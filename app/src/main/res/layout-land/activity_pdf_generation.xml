@@ -65,15 +65,15 @@
                 android:id="@+id/clLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_8sdp">
+                android:padding="@dimen/_6sdp">
 
-                <!-- Header Section -->
+                <!-- Header Section - Smaller in landscape -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clHeaderLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/header_border"
-                    android:padding="@dimen/_12sdp"
+                    android:padding="@dimen/_8sdp"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
@@ -84,7 +84,7 @@
                         android:text="@{prefs.hospitalName.toString()}"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_18sdp"
+                        android:textSize="@dimen/_16sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -93,12 +93,12 @@
                         android:id="@+id/etSubTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
                         android:fontFamily="@font/helvetica_bold_oblique"
                         android:text="@{prefs.hospitalAddress.toString()}"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_14sdp"
+                        android:textSize="@dimen/_12sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/etTitle" />
@@ -107,84 +107,101 @@
                         android:id="@+id/etDescription"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
                         android:fontFamily="@font/helvetica_regular"
                         android:text="@{prefs.hospitalAddress.toString()}"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_12sdp"
+                        android:textSize="@dimen/_10sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/etSubTitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <!-- Patient Details Section -->
+                <!-- Patient Details Section - Horizontal Layout -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clPatientLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
                     android:background="@drawable/header_border"
-                    android:padding="@dimen/_12sdp"
+                    android:padding="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@id/clHeaderLayout">
 
-                    <!-- Patient Name -->
-                    <TextView
-                        android:id="@+id/tvPatientName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/helvetica_bold_oblique"
-                        android:text="Patient Name:"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14sdp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/etPatientName"
+                    <!-- Left Column -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clLeftColumn"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        android:fontFamily="@font/helvetica_regular"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_13sdp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/tvPatientName"
-                        app:layout_constraintTop_toTopOf="@id/tvPatientName" />
+                        app:layout_constraintEnd_toStartOf="@id/clRightColumn"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.5">
 
-                    <!-- Age/Gender and Date Row -->
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/clSecondRow"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_12sdp"
-                        app:layout_constraintTop_toBottomOf="@id/etPatientName">
+                        <!-- Patient Name -->
+                        <TextView
+                            android:id="@+id/tvPatientName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/helvetica_bold_oblique"
+                            android:text="Patient Name:"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
+                        <TextView
+                            android:id="@+id/etPatientName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:fontFamily="@font/helvetica_regular"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tvPatientName"
+                            app:layout_constraintTop_toTopOf="@id/tvPatientName" />
+
+                        <!-- Age/Gender -->
                         <TextView
                             android:id="@+id/tvPatientAge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_6sdp"
                             android:fontFamily="@font/helvetica_bold_oblique"
                             android:text="Age/Gender:"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_14sdp"
+                            android:textSize="@dimen/_12sdp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toBottomOf="@id/etPatientName" />
 
                         <TextView
                             android:id="@+id/etPatientAge"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_8sdp"
-                            android:layout_marginEnd="@dimen/_16sdp"
+                            android:layout_marginStart="@dimen/_4sdp"
                             android:fontFamily="@font/helvetica_regular"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
-                            app:layout_constraintEnd_toStartOf="@id/tvDate"
+                            android:textSize="@dimen/_11sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/tvPatientAge"
                             app:layout_constraintTop_toTopOf="@id/tvPatientAge" />
 
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Right Column -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clRightColumn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/clLeftColumn"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent="0.5">
+
+                        <!-- Date -->
                         <TextView
                             android:id="@+id/tvDate"
                             android:layout_width="wrap_content"
@@ -192,78 +209,78 @@
                             android:fontFamily="@font/helvetica_bold_oblique"
                             android:text="Date:"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_14sdp"
-                            app:layout_constraintEnd_toStartOf="@id/etDate"
+                            android:textSize="@dimen/_12sdp"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <EditText
                             android:id="@+id/etDate"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginStart="@dimen/_4sdp"
                             android:background="@null"
                             android:fontFamily="@font/helvetica_regular"
                             android:hint="DD-MM-YYYY"
                             android:inputType="date"
-                            android:padding="@dimen/_4sdp"
+                            android:padding="@dimen/_2sdp"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp"
+                            android:textSize="@dimen/_11sdp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/tvDate"
-                            app:layout_constraintWidth_percent="0.35" />
+                            app:layout_constraintStart_toEndOf="@id/tvDate"
+                            app:layout_constraintTop_toTopOf="@id/tvDate" />
+
+                        <!-- Referred By -->
+                        <TextView
+                            android:id="@+id/tvReferredBy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_6sdp"
+                            android:fontFamily="@font/helvetica_bold_oblique"
+                            android:text="Referred By:"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/etDate" />
+
+                        <EditText
+                            android:id="@+id/etReferredBy"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:background="@null"
+                            android:fontFamily="@font/helvetica_regular"
+                            android:inputType="text"
+                            android:padding="@dimen/_2sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tvReferredBy"
+                            app:layout_constraintTop_toTopOf="@id/tvReferredBy" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <!-- Referred By -->
-                    <TextView
-                        android:id="@+id/tvReferredBy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_12sdp"
-                        android:fontFamily="@font/helvetica_bold_oblique"
-                        android:text="Referred By:"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14sdp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/clSecondRow" />
-
-                    <EditText
-                        android:id="@+id/etReferredBy"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        android:background="@null"
-                        android:fontFamily="@font/helvetica_regular"
-                        android:inputType="text"
-                        android:padding="@dimen/_4sdp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_13sdp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/tvReferredBy"
-                        app:layout_constraintTop_toTopOf="@id/tvReferredBy" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <!-- Content Section (Images + Report) -->
+                <!-- Content Section - Side by Side Layout -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clContentLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
                     android:background="@drawable/header_border"
                     app:layout_constraintTop_toBottomOf="@id/clPatientLayout">
 
-                    <!-- Images Section -->
+                    <!-- Images Section - Left Side -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/clImageLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:minHeight="@dimen/_200sdp"
-                        android:padding="@dimen/_8sdp"
+                        android:minHeight="@dimen/_120sdp"
+                        android:padding="@dimen/_6sdp"
                         app:layout_constraintEnd_toStartOf="@id/divider"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.4">
+                        app:layout_constraintWidth_percent="0.35">
 
                         <TextView
                             android:id="@+id/tvImagesTitle"
@@ -273,15 +290,15 @@
                             android:text="Images"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_14sdp"
+                            android:textSize="@dimen/_12sdp"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rvImagesList"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_8sdp"
-                            android:minHeight="@dimen/_150sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:minHeight="@dimen/_100sdp"
                             android:orientation="vertical"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:layout_constraintTop_toBottomOf="@id/tvImagesTitle" />
@@ -298,17 +315,17 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/clImageLayout" />
 
-                    <!-- Report Section -->
+                    <!-- Report Section - Right Side -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/clReportLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:minHeight="@dimen/_200sdp"
-                        android:padding="@dimen/_8sdp"
+                        android:minHeight="@dimen/_120sdp"
+                        android:padding="@dimen/_6sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/divider"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.6">
+                        app:layout_constraintWidth_percent="0.65">
 
                         <TextView
                             android:id="@+id/tvReport"
@@ -318,46 +335,47 @@
                             android:text="Report"
                             android:textAlignment="center"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_16sdp"
+                            android:textSize="@dimen/_14sdp"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <EditText
                             android:id="@+id/etReport"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
                             android:background="@null"
                             android:fontFamily="@font/helvetica_regular"
                             android:gravity="start|top"
-                            android:minHeight="@dimen/_150sdp"
-                            android:padding="@dimen/_8sdp"
+                            android:minHeight="@dimen/_100sdp"
+                            android:padding="@dimen/_4sdp"
                             android:textColor="@color/black"
                             android:textCursorDrawable="@drawable/green_cursor"
-                            android:textSize="@dimen/_11ssp"
+                            android:textSize="@dimen/_10ssp"
                             app:layout_constraintTop_toBottomOf="@id/tvReport" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <!-- Doctor Section -->
+                <!-- Doctor Section - Horizontal Layout -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clDoctorLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
                     android:background="@drawable/header_border"
-                    android:padding="@dimen/_12sdp"
+                    android:padding="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@id/clContentLayout">
 
+                    <!-- Signature Section -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/clSignature"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/_80sdp"
+                        android:layout_height="@dimen/_60sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.7">
+                        app:layout_constraintWidth_percent="0.6">
 
                         <ImageView
                             android:id="@+id/ivDSignature"
@@ -373,7 +391,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Add Signature"
-                            android:textSize="@dimen/_12sdp"
+                            android:textSize="@dimen/_10sdp"
                             android:textColor="@color/gray_color"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -382,31 +400,42 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/tvDoctorName"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:fontFamily="@font/helvetica_bold"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14sdp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/clSignature" />
-
-                    <TextView
-                        android:id="@+id/tvDoctorQuali"
-                        android:layout_width="0dp"
+                    <!-- Doctor Info - Horizontal Layout -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clDoctorInfo"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_4sdp"
-                        android:fontFamily="@font/helvetica_regular"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12sdp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvDoctorName" />
+                        app:layout_constraintTop_toBottomOf="@id/clSignature">
+
+                        <TextView
+                            android:id="@+id/tvDoctorName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:fontFamily="@font/helvetica_bold"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp"
+                            app:layout_constraintEnd_toStartOf="@id/tvDoctorQuali"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintWidth_percent="0.5" />
+
+                        <TextView
+                            android:id="@+id/tvDoctorQuali"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/helvetica_regular"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tvDoctorName"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintWidth_percent="0.5" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

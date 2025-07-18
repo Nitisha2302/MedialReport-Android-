@@ -19,8 +19,11 @@ import com.medicalreport.utils.toImageRequestBody
 import com.medicalreport.utils.toIntRequestBody
 import com.medicalreport.utils.toPdfRequestBody
 import com.medicalreport.utils.toRequestBody
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 class HomeRepositoryImpl(private val homeDataSource: HomeDataSource) : HomeRepository {
@@ -100,13 +103,10 @@ class HomeRepositoryImpl(private val homeDataSource: HomeDataSource) : HomeRepos
         response.success?.let { onResult(it, response) }
     }
 
-    private fun getPatientReportParam(params: PatientReportRequest): Map<String?, RequestBody> {
-        val map: MutableMap<String?, RequestBody> = HashMap()
+    private fun getPatientReportParam(params: PatientReportRequest): Map<String, RequestBody> {
+        val map: MutableMap<String, RequestBody> = HashMap()
         if (params.patientId != 0) {
-            map["patient_id"] = toIntRequestBody(params.patientId)
-        }
-        if (!params.pdfFile.isNullOrEmpty()) {
-            map["file"] = toRequestBody(params.pdfFile.toString())
+            map["patient_id"] = params.patientId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         }
         return map
     }
@@ -232,8 +232,12 @@ class HomeRepositoryImpl(private val homeDataSource: HomeDataSource) : HomeRepos
     private fun getPatientReportFilePart(params: PatientReportRequest): MultipartBody.Part? {
         return if (!TextUtils.isEmpty(params.pdfFile)) {
             val file = params.pdfFile?.let { File(it) }
-            val imageBody = file?.let { toPdfRequestBody(it) }
-            imageBody?.let { MultipartBody.Part.createFormData("file", file.name, it) }
+            if (file?.exists() == true) {
+                val requestBody = file.asRequestBody("application/pdf".toMediaTypeOrNull())
+                MultipartBody.Part.createFormData("file", file.name, requestBody)
+            } else {
+                null
+            }
         } else {
             null
         }

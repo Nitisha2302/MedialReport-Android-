@@ -73,7 +73,6 @@
             android:layout_below="@id/photoSlideOptions"
             android:layout_gravity="center"
             android:layout_margin="@dimen/_3sdp"
-            android:background="@drawable/bg_camera_rounded"
             android:clipChildren="true"
             android:clipToPadding="true">
 
