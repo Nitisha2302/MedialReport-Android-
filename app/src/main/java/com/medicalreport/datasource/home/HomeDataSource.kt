@@ -29,7 +29,7 @@ interface HomeDataSource {
         imagePart: MultipartBody.Part?
     ): DocProfileResponse
 
-    suspend fun getPatientList(page:Int): PatientResponse
+    suspend fun getPatientList(page: Int): PatientResponse
 
     suspend fun patientProfile(
         params: Map<String?, RequestBody>,
@@ -60,5 +60,8 @@ interface HomeDataSource {
 
     suspend fun getDoctorsDetailList(): DoctorsDetailResponse
 
-    suspend fun getSearchedPatientData(param: String): SearchedPatientDetailResponse
+    suspend fun getSearchedPatientData(
+        patientName: String,
+        page: Int
+    ): SearchedPatientDetailResponse
 }

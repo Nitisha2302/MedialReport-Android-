@@ -12,6 +12,7 @@ import com.medicalreport.modal.response.PatientProfileResponse
 import com.medicalreport.modal.response.PatientReportListResponse
 import com.medicalreport.modal.response.PatientReportResponse
 import com.medicalreport.modal.response.PatientResponse
+import com.medicalreport.modal.response.SearchedPatientDetailResponse
 
 interface HomeRepository {
 
@@ -61,6 +62,13 @@ interface HomeRepository {
     suspend fun getParticularPatientReportList(
         params: Int,
         onResult: (isSuccess: Boolean, baseResponse: PatientReportListResponse) -> Unit
+    )
+
+    suspend fun getSearchedPatientData(
+        patientName:String,
+        page: Int,
+        onResult: (isSuccess: Boolean, baseResponse: SearchedPatientDetailResponse) -> Unit
+
     )
 
     suspend fun logout(

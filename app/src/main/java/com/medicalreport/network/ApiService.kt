@@ -105,8 +105,11 @@ interface ApiService {
     @POST("doctor/listing")
     suspend fun getDoctorsList(): DoctorsDetailResponse
 
-    @GET("patient/list/search")
-    suspend fun getSearchedData(@Query("search") search: String): SearchedPatientDetailResponse
+    @GET("patient/search")
+    suspend fun getSearchedData(
+        @Query("name") name: String,
+        @Query("page") page: Int
+    ): SearchedPatientDetailResponse
 
     companion object {
 

@@ -14,6 +14,7 @@ import com.medicalreport.modal.response.PatientProfileResponse
 import com.medicalreport.modal.response.PatientReportListResponse
 import com.medicalreport.modal.response.PatientReportResponse
 import com.medicalreport.modal.response.PatientResponse
+import com.medicalreport.modal.response.SearchedPatientDetailResponse
 import com.medicalreport.utils.createPartFromString
 import com.medicalreport.utils.toImageRequestBody
 import com.medicalreport.utils.toIntRequestBody
@@ -90,6 +91,15 @@ class HomeRepositoryImpl(private val homeDataSource: HomeDataSource) : HomeRepos
         val response = homeDataSource.getParticularPatientReportList(params)
         response.status?.let { onResult(it, response) }
 
+    }
+
+    override suspend fun getSearchedPatientData(
+        patientName: String,
+        page: Int,
+        onResult: (Boolean, SearchedPatientDetailResponse) -> Unit
+    ) {
+        val response = homeDataSource.getSearchedPatientData(patientName,page)
+        response.status?.let { onResult(it, response) }
     }
 
     override suspend fun updatePatientReport(

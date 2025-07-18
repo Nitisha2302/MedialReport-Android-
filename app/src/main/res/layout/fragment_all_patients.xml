@@ -64,6 +64,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/tvCross"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/ic_cross_"
+                android:layout_marginEnd="@dimen/_4sdp"
+                app:layout_constraintEnd_toEndOf="@+id/etSearch"
+                app:layout_constraintTop_toTopOf="@+id/etSearch"
+                app:layout_constraintBottom_toBottomOf="@+id/etSearch"
+                app:tint="?attr/iconColor" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/searchView"
                 android:layout_width="@dimen/_30sdp"
@@ -270,7 +281,7 @@
                 android:paddingHorizontal="@dimen/_4sdp"
                 android:textColor="?android:attr/textColor"
                 android:fontFamily="@font/helvetica_bold"
-                android:textSize="@dimen/_12ssp"/>
+                android:textSize="@dimen/_12ssp" />
 
             <TextView
                 android:id="@+id/tvPageIndicator"
@@ -280,7 +291,7 @@
                 android:paddingHorizontal="@dimen/_4sdp"
                 android:textColor="?android:attr/textColor"
                 android:fontFamily="@font/helvetica_bold"
-                android:textSize="@dimen/_12ssp"/>
+                android:textSize="@dimen/_12ssp" />
 
             <TextView
                 android:id="@+id/btnNext"
@@ -290,7 +301,7 @@
                 android:paddingHorizontal="@dimen/_4sdp"
                 android:textColor="?android:attr/textColor"
                 android:fontFamily="@font/helvetica_bold"
-                android:textSize="@dimen/_12ssp"/>
+                android:textSize="@dimen/_12ssp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

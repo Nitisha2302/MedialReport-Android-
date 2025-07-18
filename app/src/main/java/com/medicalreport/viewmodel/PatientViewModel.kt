@@ -21,13 +21,15 @@ class PatientViewModel(private val homeRepository: HomeRepository) : ParentViewM
     var patientProfileRequest = ObservableField(PatientProfileRequest())
     var updatePatientProfileRequest = ObservableField(UpdatePatientProfileRequest())
     var updatePatientReportRequest = ObservableField(PatientReportRequest())
-
     var patientList = MutableLiveData<ArrayList<PatientData>?>()
     var particularPatientProfile = MutableLiveData<PProfileData?>()
     val patientProfile = MutableLiveData<PatientProfileData?>()
     val patientReportList = MutableLiveData<ArrayList<DataItem>?>()
 
     var totalPages = MutableLiveData<Int>()
+
+    var searchedPatientList = MutableLiveData<ArrayList<PatientData>?>()
+
 
     fun newPatientProfile(
         gender: String,
@@ -235,6 +237,27 @@ class PatientViewModel(private val homeRepository: HomeRepository) : ParentViewM
                     response.data?.let { reportResponse ->
                         patientReportList.postValue(reportResponse)
                     }
+                } else {
+                    errorToastMessage.postValue(response.message)
+                    onResult(false)
+                }
+            }
+        }
+    }
+
+    fun getSearchedPatientData(
+        patientName: String,
+        page: Int,
+        onResult: (isSuccess: Boolean) -> Unit
+    ) {
+        viewModelScope.launch {
+            showLoading.postValue(true)
+            homeRepository.getSearchedPatientData(patientName, page) { isSuccess, response ->
+                showLoading.postValue(false)
+                if (response.status == true) {
+                    onResult(true)
+                    toastMessage.postValue(response.message)
+                    searchedPatientList.postValue(response.data)
                 } else {
                     errorToastMessage.postValue(response.message)
                     onResult(false)
