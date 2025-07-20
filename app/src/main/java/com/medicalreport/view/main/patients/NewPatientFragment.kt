@@ -215,7 +215,6 @@ class NewPatientFragment : BaseFragment<FragmentNewPatientBinding>(),
                 deviceClass = it.deviceClass
                 deviceSubclass = it.deviceSubclass
             }
-            Toast.makeText(context, "Device Attached,${productId},${vendorId},${deviceClass},${deviceSubclass}", Toast.LENGTH_SHORT).show()
             startMainActivity(selectedDoctors)
         }
     }

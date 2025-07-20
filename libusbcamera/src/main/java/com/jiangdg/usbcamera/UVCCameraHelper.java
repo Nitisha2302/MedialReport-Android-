@@ -46,6 +46,13 @@ public class UVCCameraHelper {
     public static final int MODE_BRIGHTNESS = UVCCamera.PU_BRIGHTNESS;
     public static final int MODE_CONTRAST = UVCCamera.PU_CONTRAST;
     public static final int MODE_AUTO_WHITEBALANCE = UVCCamera.PU_WB_COMPO_AUTO;
+
+    // --- NEW CONSTANTS FOR MANUAL WHITE BALANCE ---
+    public static final int MODE_WHITE_BALANCE = UVCCamera.PU_WB_COMPO; // White Balance Mode (Auto/Manual)
+    public static final int MODE_WHITE_BALANCE_TEMPERATURE = UVCCamera.PU_WB_TEMP; // White Balance Temperature
+    public static final int DEFAULT_WHITE_BALANCE_MODE_AUTO = 0; // Usually 0 for auto, check UVCCamera source
+    public static final int DEFAULT_WHITE_BALANCE_MODE_MANUAL = 1; // Usually 1 for manual, check UVCCamera source
+    // --- END NEW CONSTANTS ---
     private int mFrameFormat = FRAME_FORMAT_MJPEG;
 
     private static UVCCameraHelper mCameraHelper;
@@ -384,4 +391,12 @@ public class UVCCameraHelper {
     public int getPreviewHeight() {
         return previewHeight;
     }
+
+    public String getSupportedSize() {
+        if (mCameraHandler != null) {
+            return mCameraHandler.getSupportedSize();
+        }
+        return null;
+    }
+
 }

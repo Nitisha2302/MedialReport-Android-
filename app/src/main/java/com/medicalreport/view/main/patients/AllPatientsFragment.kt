@@ -85,7 +85,7 @@ class AllPatientsFragment : BaseFragment<FragmentAllPatientsBinding>(),
         mBinding.searchView.setOnClickListener {
             if (Util.checkIfHasNetwork()) {
                 isLoading = true
-                viewModel.getSearchedPatientData(searchName, currentPage) {
+                viewModel.getSearchedPatientData(searchName, 1) {
                     isLoading = false
                 }
             } else {

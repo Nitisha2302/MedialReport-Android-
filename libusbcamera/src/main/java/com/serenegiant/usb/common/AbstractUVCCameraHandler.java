@@ -322,6 +322,8 @@ public abstract class AbstractUVCCameraHandler extends Handler {
                 return camera.getBrightness();
             } else if (flag == UVCCamera.PU_CONTRAST) {
                 return camera.getContrast();
+            }else if (flag == UVCCamera.PU_WB_COMPO){
+                return camera.getWhiteBlance();
             }
         }
         throw new IllegalStateException();
@@ -338,6 +340,9 @@ public abstract class AbstractUVCCameraHandler extends Handler {
             } else if (flag == UVCCamera.PU_CONTRAST) {
                 camera.setContrast(value);
                 return camera.getContrast();
+            }else if (flag == UVCCamera.PU_WB_COMPO){
+                camera.setWhiteBlance(value);
+                return camera.getWhiteBlance();
             }
         }
         throw new IllegalStateException();
@@ -354,6 +359,9 @@ public abstract class AbstractUVCCameraHandler extends Handler {
             } else if (flag == UVCCamera.PU_CONTRAST) {
                 camera.resetContrast();
                 return camera.getContrast();
+            } else if (flag == UVCCamera.PU_WB_COMPO) {
+                camera.resetWhiteBlance();
+                return camera.getWhiteBlance();
             }
         }
         throw new IllegalStateException();
@@ -405,6 +413,13 @@ public abstract class AbstractUVCCameraHandler extends Handler {
         }
     }
 
+    public String getSupportedSize() {
+        final CameraThread thread = mWeakThread.get();
+        if (DEBUG)
+            Log.i("UVCCameraHandler", "supportedSize:" + (thread != null && thread.getUVCCamera() != null ? thread.getUVCCamera().getSupportedSize() : null));
+        return thread != null && thread.getUVCCamera() != null ? thread.getUVCCamera().getSupportedSize() : null;
+    }
+
     public static final class CameraThread extends Thread {
         private static final String TAG_THREAD = "CameraThread";
         private final Object mSync = new Object();
@@ -433,6 +448,9 @@ public abstract class AbstractUVCCameraHandler extends Handler {
         private boolean isSupportOverlay;
 //		private boolean isAudioThreadStart;
 
+        public UVCCamera getUVCCamera() {
+            return mUVCCamera;
+        }
         /**
          * 构造方法
          * <p>

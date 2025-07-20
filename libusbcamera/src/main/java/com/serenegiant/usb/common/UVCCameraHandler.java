@@ -24,12 +24,13 @@
 package com.serenegiant.usb.common;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.serenegiant.usb.UVCCamera;
 import com.serenegiant.usb.widget.CameraViewInterface;
 
 public class UVCCameraHandler extends AbstractUVCCameraHandler {
-
+	private static final boolean DEBUG = true;
 	/**
 	 * create UVCCameraHandler, use MediaVideoEncoder, try MJPEG, default bandwidth
 	 * @param parent
@@ -44,6 +45,7 @@ public class UVCCameraHandler extends AbstractUVCCameraHandler {
 
 		return createHandler(parent, cameraView, 1, width, height, UVCCamera.FRAME_FORMAT_MJPEG, UVCCamera.DEFAULT_BANDWIDTH);
 	}
+
 
 	/**
 	 * create UVCCameraHandler, use MediaVideoEncoder, try MJPEG
@@ -147,4 +149,5 @@ public class UVCCameraHandler extends AbstractUVCCameraHandler {
 	public void stopAutoWhiteBalance(){
 		super.stopAutoWhiteBalance();
 	}
+
 }
