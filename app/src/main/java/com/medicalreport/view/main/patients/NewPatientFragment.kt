@@ -75,6 +75,10 @@ class NewPatientFragment : BaseFragment<FragmentNewPatientBinding>(),
     }
 
     private fun initListener() {
+        mBinding.ivBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
         mBinding.btnCreateProfile.setOnClickListener {
             it.disableMultiTap()
             if (Util.checkIfHasNetwork()) {

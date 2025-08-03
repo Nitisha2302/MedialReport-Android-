@@ -62,6 +62,5 @@ interface HomeDataSource {
 
     suspend fun getSearchedPatientData(
         patientName: String,
-        page: Int
     ): SearchedPatientDetailResponse
 }

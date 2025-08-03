@@ -155,6 +155,10 @@ class PatientProfileFragment : BaseFragment<FragmentPatientProfileBinding>(),
     }
 
     private fun initListener() {
+        mBinding.ivBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
         mBinding.tvEditProfile.setOnClickListener {
             patientId?.let { it1 -> bundle.putInt("patientid", it1) }
             findNavController().navigate(R.id.nav_updatePatient, bundle)
@@ -262,6 +266,7 @@ class PatientProfileFragment : BaseFragment<FragmentPatientProfileBinding>(),
 
         startActivity(Intent.createChooser(intent, "Share PDF using"))
     }
+
     companion object {
         const val DIALOG_DOCTORS_SUCCESS = 1
     }

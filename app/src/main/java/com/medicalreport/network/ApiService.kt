@@ -107,8 +107,7 @@ interface ApiService {
 
     @GET("patient/search/{name}")
     suspend fun getSearchedData(
-        @Path("name") name: String,
-        @Query("page") page: Int
+        @Path("name") name: String
     ): SearchedPatientDetailResponse
 
     companion object {

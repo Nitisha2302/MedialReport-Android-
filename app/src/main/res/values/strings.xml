@@ -13,7 +13,7 @@
     <string name="something_went_wrong">Something went wrong</string>
 
     <!-- Splash Screen -->
-    <string name="title_motivation_title">" innovations beyond imagination "</string>
+    <string name="title_motivation_title">" Innovations beyond imagination "</string>
 
     <!-- Login Screen -->
     <string name="title_login">Login</string>
@@ -52,6 +52,7 @@
     <string name="title_patient_created">New Patient Created Successfully..</string>
     <string name="txt_home">Home</string>
     <string name="txt_create_pdf">Create Pdf</string>
+    <string name="txt_go_to_live">Go to Live</string>
 
     <!--Menu titles -->
     <string name="menu_home">Home</string>

@@ -95,10 +95,9 @@ class HomeRepositoryImpl(private val homeDataSource: HomeDataSource) : HomeRepos
 
     override suspend fun getSearchedPatientData(
         patientName: String,
-        page: Int,
         onResult: (Boolean, SearchedPatientDetailResponse) -> Unit
     ) {
-        val response = homeDataSource.getSearchedPatientData(patientName,page)
+        val response = homeDataSource.getSearchedPatientData(patientName)
         response.status?.let { onResult(it, response) }
     }
 

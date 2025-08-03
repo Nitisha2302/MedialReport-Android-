@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.navigation.fragment.findNavController
 import com.medicalreport.R
 import com.medicalreport.base.BaseFragment
 import com.medicalreport.databinding.FragmentUpdatePatientBinding
@@ -74,6 +75,9 @@ class UpdatePatientFragment : BaseFragment<FragmentUpdatePatientBinding>() {
     }
 
     private fun initListener() {
+        mBinding.ivBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
         mBinding.btnCreateProfile.setOnClickListener {
             it.disableMultiTap()
             if (Util.checkIfHasNetwork()) {

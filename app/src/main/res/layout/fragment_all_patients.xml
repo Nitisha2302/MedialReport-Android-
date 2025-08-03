@@ -36,12 +36,22 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.95" />
 
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ic_back_arrow_"
+            app:layout_constraintBottom_toBottomOf="@+id/clSearch"
+            app:layout_constraintStart_toStartOf="@id/glVerticalStart"
+            app:layout_constraintTop_toTopOf="@id/clSearch" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clSearch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="@id/glVerticalEnd"
-            app:layout_constraintStart_toStartOf="@id/glVerticalStart"
+            app:layout_constraintStart_toEndOf="@+id/ivBack"
             app:layout_constraintTop_toTopOf="@id/glHorizontalTop">
 
             <androidx.appcompat.widget.AppCompatEditText

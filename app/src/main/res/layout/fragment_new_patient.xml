@@ -36,17 +36,27 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.95" />
 
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ic_back_arrow_"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+            app:layout_constraintStart_toStartOf="@id/glVerticalStart"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle" />
+
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/helvetica_bold"
-            android:text="@string/txt_new_patient_registration"
-            android:textColor="@color/app_color"
-            android:textSize="@dimen/_22sdp"
             android:paddingHorizontal="@dimen/_10sdp"
+            android:text="@string/txt_new_patient_registration"
+            android:textAlignment="center"
+            android:textColor="@color/app_color"
+            android:textSize="@dimen/_18sdp"
             app:layout_constraintEnd_toEndOf="@id/glVerticalEnd"
-            app:layout_constraintStart_toStartOf="@id/glVerticalStart"
+            app:layout_constraintStart_toEndOf="@+id/ivBack"
             app:layout_constraintTop_toTopOf="@id/glHorizontalTop" />
 
         <ScrollView

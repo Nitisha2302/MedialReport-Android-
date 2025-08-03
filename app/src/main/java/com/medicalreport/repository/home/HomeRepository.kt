@@ -66,7 +66,6 @@ interface HomeRepository {
 
     suspend fun getSearchedPatientData(
         patientName:String,
-        page: Int,
         onResult: (isSuccess: Boolean, baseResponse: SearchedPatientDetailResponse) -> Unit
 
     )

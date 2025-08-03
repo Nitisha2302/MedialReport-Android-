@@ -66,6 +66,9 @@ class AllPatientsFragment : BaseFragment<FragmentAllPatientsBinding>(),
     }
 
     private fun initListener() {
+        mBinding.ivBack?.setOnClickListener {
+            findNavController().navigateUp()
+        }
         mBinding.btnNext.setOnClickListener {
             totalPages?.let { it1 ->
                 if (currentPage < it1) {
@@ -85,7 +88,7 @@ class AllPatientsFragment : BaseFragment<FragmentAllPatientsBinding>(),
         mBinding.searchView.setOnClickListener {
             if (Util.checkIfHasNetwork()) {
                 isLoading = true
-                viewModel.getSearchedPatientData(searchName, 1) {
+                viewModel.getSearchedPatientData(searchName) {
                     isLoading = false
                 }
             } else {

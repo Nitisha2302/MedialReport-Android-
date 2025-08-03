@@ -21,6 +21,7 @@ import com.medicalreport.modal.response.ImageData
 import com.medicalreport.modal.response.SelectedDoctorsResponse
 import com.medicalreport.utils.*
 import com.medicalreport.view.adapter.ReportCreationAdapter
+import com.medicalreport.view.main.MainActivity
 import com.medicalreport.view.main.dialog.SignatureDialogFragment
 import com.medicalreport.viewmodel.PatientViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -103,6 +104,7 @@ class PdfGenerationActivity : AppCompatActivity(), SignatureDialogFragment.Click
 
         mBinding.ivBack.setOnClickListener {
             it.disableMultiTap()
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
 

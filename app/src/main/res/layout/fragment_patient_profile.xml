@@ -60,6 +60,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
+                    <ImageView
+                        android:id="@+id/ivBack"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/ic_back_arrow_"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvPatientDetail"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tvPatientDetail"
+                        app:tint="@color/white" />
+
                     <TextView
                         android:id="@+id/tvPatientDetail"
                         android:layout_width="match_parent"

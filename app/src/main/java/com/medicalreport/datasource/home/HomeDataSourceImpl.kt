@@ -218,10 +218,10 @@ class HomeDataSourceImpl(
         }
     }
 
-    override suspend fun getSearchedPatientData(patientName: String,page:Int): SearchedPatientDetailResponse {
+    override suspend fun getSearchedPatientData(patientName: String): SearchedPatientDetailResponse {
         var baseResponse = SearchedPatientDetailResponse()
         try {
-            baseResponse = api.getSearchedData(patientName,page)
+            baseResponse = api.getSearchedData(patientName)
             baseResponse.status = true
         } catch (e: Exception) {
             baseResponse.status = false

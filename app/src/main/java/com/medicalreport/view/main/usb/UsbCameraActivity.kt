@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Parcelable
+import android.os.SystemClock
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
@@ -40,6 +41,7 @@ import com.medicalreport.modal.response.ImageData
 import com.medicalreport.modal.response.SelectedDoctorsResponse
 import com.medicalreport.utils.disableMultiTap
 import com.medicalreport.view.adapter.ImageAdapter
+import com.medicalreport.view.main.MainActivity
 import com.medicalreport.view.main.reports.PdfGenerationActivity
 import com.serenegiant.usb.CameraDialog.CameraDialogParent
 import com.serenegiant.usb.USBMonitor
@@ -74,7 +76,9 @@ class UsbCameraActivity : AppCompatActivity(), CameraDialogParent, CameraViewInt
     var gender: String = ""
     var age: String = ""
     var patientId: Int? = 0
-
+    private var lastClickTime = 0L
+    private var DEBOUNCE_INTERVAL = 500L // Adjust as needed
+    private var isCapturing = false // New flag to prevent duplicate captures
 
     private val listener: UVCCameraHelper.OnMyDevConnectListener = object :
         UVCCameraHelper.OnMyDevConnectListener {
@@ -99,9 +103,17 @@ class UsbCameraActivity : AppCompatActivity(), CameraDialogParent, CameraViewInt
             if (!isConnected) {
                 showShortMsg("Fail to connect, please check resolution params")
                 isPreview = false
+                // Hide progress bar on connection failure
+                runOnUiThread {
+                    mBinding.progressBar?.visibility = View.GONE
+                }
             } else {
                 isPreview = true
                 showShortMsg("Connecting")
+                // Show progress bar when connecting
+                runOnUiThread {
+                    mBinding.progressBar?.visibility = View.VISIBLE
+                }
 
                 Thread {
                     try {
@@ -147,6 +159,8 @@ class UsbCameraActivity : AppCompatActivity(), CameraDialogParent, CameraViewInt
                                                                 mCameraHelper.getModelValue(UVCCameraHelper.MODE_WHITE_BALANCE)
 
                                                             Log.i("USBCAMERA", "Model values set successfully on attempt $attempt")
+                                                            // Hide progress bar once camera is fully set up
+                                                            mBinding.progressBar?.visibility = View.GONE
                                                             return@launch
                                                         } catch (e: IllegalStateException) {
                                                             Log.w("USBCAMERA", "Camera not ready yet, retrying... (attempt $attempt)")
@@ -156,6 +170,8 @@ class UsbCameraActivity : AppCompatActivity(), CameraDialogParent, CameraViewInt
                                                 }
 
                                                 showShortMsg("Failed to fetch camera model values after multiple attempts")
+                                                // Hide progress bar if setup fails after retries
+                                                mBinding.progressBar?.visibility = View.GONE
                                             }
                                         }
                                     }
@@ -163,16 +179,27 @@ class UsbCameraActivity : AppCompatActivity(), CameraDialogParent, CameraViewInt
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
+                            // Hide progress bar on exception
+                            runOnUiThread {
+                                mBinding.progressBar?.visibility = View.GONE
+                            }
+                        }
+                    } else {
+                        // Hide progress bar if camera is not opened after initial delay
+                        runOnUiThread {
+                            mBinding.progressBar?.visibility = View.GONE
                         }
                     }
                 }.start()
             }
         }
 
-
-
         override fun onDisConnectDev(device: UsbDevice) {
             showShortMsg("disconnecting")
+            // Hide progress bar on disconnect
+            runOnUiThread {
+                mBinding.progressBar?.visibility = View.GONE
+            }
         }
     }
 
@@ -185,7 +212,9 @@ class UsbCameraActivity : AppCompatActivity(), CameraDialogParent, CameraViewInt
         gender = bundle?.getString("patient_gender").toString()
         selectedDoctors = bundle?.getParcelableArrayList("selectedDoctors")
         initView()
-        // step.1 initialize UVCCameraHelper
+
+        // Show progress bar initially
+        mBinding.progressBar?.visibility = View.VISIBLE
 
         mUVCCameraView = mBinding.cameraView as CameraViewInterface
         mUVCCameraView.setCallback(this)
@@ -340,36 +369,66 @@ class UsbCameraActivity : AppCompatActivity(), CameraDialogParent, CameraViewInt
             }
         }
 
-        mBinding.ivCamera?.setOnClickListener {
-            it.disableMultiTap()
+        mBinding.ivCamera.setOnClickListener {
+            // Check if a capture is already in progress
+            if (isCapturing) {
+                Log.d("Capture", "Ignoring click, capture already in progress.")
+                return@setOnClickListener
+            }
+
+            // Debounce check
+            if (SystemClock.elapsedRealtime() - lastClickTime < DEBOUNCE_INTERVAL) {
+                Log.d("Capture", "Ignoring click due to debounce interval.")
+                return@setOnClickListener
+            }
+            lastClickTime = SystemClock.elapsedRealtime()
+
             if (mCameraHelper == null || !mCameraHelper.isCameraOpened) {
                 showShortMsg("sorry,camera open failed")
+                return@setOnClickListener
             }
 
             val picPath = getImageFileName()
 
+            // Set the capturing flag to true before initiating capture
+            isCapturing = true
+
             mCameraHelper.capturePicture(
                 picPath,
                 AbstractUVCCameraHandler.OnCaptureListener { path ->
-                    if (TextUtils.isEmpty(path)) {
-                        return@OnCaptureListener
+                    // This is the key part to prevent duplicate images.
+                    // We only process the first valid callback and then reset the flag.
+                    if (isCapturing) {
+                        Log.d("Capture", "OnCaptureListener called for path: $path")
+                        if (TextUtils.isEmpty(path)) {
+                            // If the path is empty, we still need to reset the flag.
+                            isCapturing = false
+                            return@OnCaptureListener
+                        }
+
+                        Handler(mainLooper).post(Runnable {
+                            Toast.makeText(
+                                this@UsbCameraActivity,
+                                "save path:$path",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            imageList.add(ImageData(Uri.fromFile(File(path))))
+                            setImageClickAdapter(imageList)
+
+                            // Reset the flag after successfully handling the first capture
+                            isCapturing = false
+                        })
+                    } else {
+                        // Log and ignore subsequent calls to the listener
+                        Log.d("Capture", "Ignoring subsequent OnCaptureListener call.")
                     }
-                    Handler(mainLooper).post(Runnable {
-                        Toast.makeText(
-                            this@UsbCameraActivity,
-                            "save path:$path",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        imageList.add(ImageData(Uri.fromFile(File(path))))
-                        setImageClickAdapter(imageList)
-
-                    })
-
-                })
+                }
+            )
         }
 
         mBinding.ivBack?.setOnClickListener {
             it.disableMultiTap()
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
 
@@ -458,7 +517,9 @@ class UsbCameraActivity : AppCompatActivity(), CameraDialogParent, CameraViewInt
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
-        mBinding.seekbarWhiteBalance?.max = 6500 // Example max value. Adjust as needed.
+        val defaultWhiteBalanceProgress = (mBinding.seekbarWhiteBalance?.max ?: 0) / 2
+        mBinding.seekbarWhiteBalance?.progress = defaultWhiteBalanceProgress
+
         mBinding.seekbarWhiteBalance?.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {

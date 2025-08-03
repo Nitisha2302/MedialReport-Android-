@@ -13,6 +13,7 @@ import com.medicalreport.modal.response.PProfileData
 import com.medicalreport.modal.response.PatientData
 import com.medicalreport.modal.response.PatientProfileData
 import com.medicalreport.repository.home.HomeRepository
+import com.medicalreport.utils.Prefs
 import com.pentasoft.docportal.utils.Scope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -55,6 +56,9 @@ class PatientViewModel(private val homeRepository: HomeRepository) : ParentViewM
                     if (response.success == true) {
                         onResult(true)
                         toastMessage.postValue(response.message)
+                        response.data?.id?.let {
+                            Prefs.init().patientId = it
+                        }
 
                     } else {
                         errorToastMessage.postValue(response.message)
@@ -247,12 +251,11 @@ class PatientViewModel(private val homeRepository: HomeRepository) : ParentViewM
 
     fun getSearchedPatientData(
         patientName: String,
-        page: Int,
         onResult: (isSuccess: Boolean) -> Unit
     ) {
         viewModelScope.launch {
             showLoading.postValue(true)
-            homeRepository.getSearchedPatientData(patientName, page) { isSuccess, response ->
+            homeRepository.getSearchedPatientData(patientName) { isSuccess, response ->
                 showLoading.postValue(false)
                 if (response.status == true) {
                     onResult(true)

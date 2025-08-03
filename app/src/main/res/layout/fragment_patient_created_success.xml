@@ -123,7 +123,7 @@
                             android:focusable="true"
                             android:letterSpacing="0.02"
                             android:paddingVertical="@dimen/_8sdp"
-                            android:text="@string/txt_create_pdf"
+                            android:text="@string/txt_go_to_live"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textFontWeight="900"

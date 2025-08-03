@@ -32,12 +32,18 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/white" />
 
-                <ImageView
+                <TextView
                     android:id="@+id/ivSave"
-                    android:layout_width="@dimen/_30sdp"
+                    android:layout_width="wrap_content"
                     android:layout_height="0dp"
+                    android:fontFamily="@font/helvetica_bold"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/_3sdp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/icons_save"
+                    android:text="Report"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -88,6 +94,62 @@
 
         </FrameLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clProgress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/llIcons"
+            android:layout_below="@id/photoSlideOptions"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_3sdp"
+            android:visibility="gone">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/progress_bg_color">
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_margin="@dimen/_12sdp"
+                        android:indeterminateTint="@color/app_color"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_4sdp"
+                        android:layout_marginVertical="@dimen/_4sdp"
+                        android:fontFamily="@font/helvetica_bold"
+                        android:text="Camera Loading..."
+                        android:textAlignment="center"
+                        android:textColor="@color/app_color"
+                        android:textSize="@dimen/_16ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <LinearLayout
             android:id="@+id/llIcons"
             android:layout_width="@dimen/_30sdp"
@@ -100,7 +162,7 @@
             <ImageButton
                 android:id="@+id/ivBrightness"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/txt_brightness"
@@ -111,7 +173,7 @@
             <ImageButton
                 android:id="@+id/ivVideo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/txt_video_recording"
@@ -123,7 +185,7 @@
             <ImageButton
                 android:id="@+id/ivCamera"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/txt_capture_image"
@@ -135,7 +197,7 @@
             <ImageButton
                 android:id="@+id/ivSettings"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/txt_setting"
@@ -146,7 +208,7 @@
             <ImageButton
                 android:id="@+id/ivContrast"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/txt_contrast"
@@ -157,7 +219,7 @@
             <ImageButton
                 android:id="@+id/ivWhiteBalance"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/txt_video_recording"
@@ -186,14 +248,15 @@
                 android:paddingTop="7dp"
                 android:paddingBottom="7dp"
                 android:text="@string/txt_white_balance"
-                android:textColor="?android:attr/textColor"
+                android:textColor="@color/app_color"
                 android:textSize="@dimen/_14sdp" />
 
             <SeekBar
                 android:id="@+id/seekbar_white_balance"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2" />
+                android:layout_weight="2"
+                android:progress="50" />
         </LinearLayout>
 
         <LinearLayout
@@ -215,7 +278,7 @@
                 android:paddingTop="7dp"
                 android:paddingBottom="7dp"
                 android:text="@string/txt_contrast"
-                android:textColor="?android:attr/textColor"
+                android:textColor="@color/app_color"
                 android:textSize="@dimen/_14sdp" />
 
             <SeekBar
@@ -240,11 +303,12 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+
                 android:layout_weight="1"
                 android:paddingTop="7dp"
                 android:paddingBottom="7dp"
                 android:text="@string/txt_brightness"
-                android:textColor="?android:attr/textColor"
+                android:textColor="@color/app_color"
                 android:textSize="@dimen/_14sdp" />
 
             <SeekBar
